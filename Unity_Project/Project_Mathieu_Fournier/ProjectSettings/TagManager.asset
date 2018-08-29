@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - GrabAble
+  - Token
+  - Jar
+  - Saxophone
+  - Boot
+  - Chest
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PlayerFlee
+  - ExitZoneCollider
+  - PlayerGrab
+  - Token
+  - P1Cam
+  - P2Cam
+  - P3Cam
+  - P4Cam
+  - Menu_UI
+  - Jar
+  - HeldPlayer
+  - HeldJar
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
