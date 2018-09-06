@@ -18,14 +18,14 @@
             "ArtWork/3D_Models/City/Exterior",
             "."
         ],
-        "selectedFbxPath": 0,
+        "selectedFbxPath": 1,
         "selectedPrefabPath": 0,
         "dccOptionNames": [],
         "dccOptionPaths": [],
         "exportModelSettingsSerialize": {
             "exportFormat": 0,
             "rootMotionTransfer": "",
-            "animatedSkinnedMesh": false,
+            "animatedSkinnedMesh": true,
             "mayaCompatibleNaming": true,
             "include": 0,
             "lodLevel": 0,

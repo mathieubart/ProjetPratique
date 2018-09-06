@@ -122,6 +122,7 @@
     <Compile Include="Assets\Scripts\Level\LevelTimer.cs" />
     <Compile Include="Assets\Scripts\Level\Truck.cs" />
     <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\EventManager.cs" />
     <Compile Include="Assets\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PoolManager.cs" />
     <Compile Include="Assets\Scripts\Managers\TeamManager.cs" />
@@ -198,10 +199,10 @@
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
     <None Include="Assets\FbxExporters\LICENSE.txt" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/Users/1810042/Desktop/code/Unity_Project/Project_Mathieu_Fournier/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>D:/Users/1810042/Desktop/ProjetPratique/Unity_Project/Project_Mathieu_Fournier/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/Users/1810042/Desktop/code/Unity_Project/Project_Mathieu_Fournier/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>D:/Users/1810042/Desktop/ProjetPratique/Unity_Project/Project_Mathieu_Fournier/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity2018.1.6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -402,13 +403,13 @@
       <HintPath>C:/Program Files/Unity2018.1.6/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityFbxPrefab">
-      <HintPath>D:/Users/1810042/Desktop/code/Unity_Project/Project_Mathieu_Fournier/Assets/FbxExporters/UnityFbxPrefab.dll</HintPath>
+      <HintPath>D:/Users/1810042/Desktop/ProjetPratique/Unity_Project/Project_Mathieu_Fournier/Assets/FbxExporters/UnityFbxPrefab.dll</HintPath>
     </Reference>
     <Reference Include="TextMeshPro-2017.3-Editor">
-      <HintPath>D:/Users/1810042/Desktop/code/Unity_Project/Project_Mathieu_Fournier/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
+      <HintPath>D:/Users/1810042/Desktop/ProjetPratique/Unity_Project/Project_Mathieu_Fournier/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Editor.dll</HintPath>
     </Reference>
     <Reference Include="TextMeshPro-2017.3-Runtime">
-      <HintPath>D:/Users/1810042/Desktop/code/Unity_Project/Project_Mathieu_Fournier/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
+      <HintPath>D:/Users/1810042/Desktop/ProjetPratique/Unity_Project/Project_Mathieu_Fournier/Assets/TextMesh Pro/Plugins/Editor DLL/TextMeshPro-2017.3-Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>D:/Users/1810042/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>

@@ -23,18 +23,44 @@ public class Truck : MonoBehaviour
 		return m_Spawn02.position;
 	}
 
-	private void OnTriggerEnter(Collider aCol)
+    [SerializeField]
+    private Transform m_DiamondPile;
+
+    [SerializeField]
+    private Vector3 m_DiamondPileGrowAmount = Vector3.up;
+    private Vector3 m_DiamondPileBaseSize;
+
+    private void Awake()
+    {
+        m_DiamondPile.localScale = new Vector3(m_DiamondPile.localScale.x, 0f, m_DiamondPile.localScale.z);
+        m_DiamondPileBaseSize = m_DiamondPile.localScale;
+        ResetDiamondPile();
+    }
+
+    private void OnTriggerEnter(Collider aCol)
 	{	
 		if(aCol.name == "Runner" )
 		{
 			int points = aCol.GetComponent<Runner>().GetPoints();
 			TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, points);
 			aCol.GetComponent<Runner>().ResetBag();
+            GrowDiamondPileSizeBy(points);
 		}
 		else if(aCol.transform.tag == "Jar" && aCol.GetComponent<Jar>().m_IsHiddingThePlayer)
 		{
 			int points = aCol.GetComponent<Jar>().m_PlayerHidden.GetPoints();
-			TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, points);			
-		}
-	}
+			TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, points);	
+            GrowDiamondPileSizeBy(points);
+        }
+    }
+
+    private void GrowDiamondPileSizeBy(int a_Size)
+    {
+        m_DiamondPile.localScale += a_Size * m_DiamondPileGrowAmount;
+    }
+
+    private void ResetDiamondPile()
+    {
+        m_DiamondPile.localScale = m_DiamondPileBaseSize;
+    }
 }
