@@ -5,18 +5,19 @@ using UnityEngine;
 
 public enum EventID
 {
-    //Level Manager Events
-    ChangeLevel = 0,
+    //Level Related Events
+    ChangeLevel,
+    OnLevelLoaded,
 
-    //Audio Manager Events
-    UpdateMusic = 1,
-    PlaySFX = 2,
+    //Audio Related Events
+    UpdateMusic,
+    PlaySFX,
 
-    //Runner Player Events
-    UpdatePoints = 3,
-    AddPowerUp = 4,
-    RemovePowerUp = 5
-
+    //Player/Team Related Events
+    UpdatePoints,
+    AddPowerUp,
+    RemovePowerUp,
+    DepositCoin
 }
 
 public class EventManager : MonoBehaviour 
