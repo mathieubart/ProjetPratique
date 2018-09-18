@@ -14,10 +14,6 @@ public class Grabber : Character
     private GameObject m_HeldObject;
     private List<GameObject> m_GrabablePots = new List<GameObject>();
 
-    //MathFournier : To Be Removed, To Add FeedBack During The Prototyte
-    [SerializeField]
-    private GameObject m_StunnedFeedback;
-
     protected override void Awake()
     {
         base.Awake();
@@ -41,16 +37,6 @@ public class Grabber : Character
     protected override void Update()
     {      
         base.Update();
-
-        //MathFournier : If/Else To Be Removed, Here To Add FeedBack During The Prototype;
-        if(m_Speed != 0)
-        {
-            m_StunnedFeedback.SetActive(false);
-        }
-        else
-        {
-            m_StunnedFeedback.SetActive(true);
-        }
 
         if (Input.GetButtonDown("Action_" + m_ID))
         {
@@ -151,6 +137,7 @@ public class Grabber : Character
                 if(point.point.y > 1.2f)
                 {
                     gameObject.AddComponent<JarStunEffect>();
+                    StartStunned();
                     break;
                 }
             }
@@ -162,7 +149,7 @@ public class Grabber : Character
         if(m_GrabAbleObject.name == "Runner")
         {
             m_GrabAbleObject.GetComponent<Runner>().OnHold(transform);
-            m_GrabAbleObject.GetComponent<Renderer>().enabled = true;
+            //m_GrabAbleObject.GetComponent<Renderer>().enabled = true;
             m_HeldObject = m_GrabAbleObject;
             m_GrabAbleObject = null;
         }
@@ -191,5 +178,38 @@ public class Grabber : Character
         m_HeldObject.GetComponent<Rigidbody>().AddForce(throwDirection * m_ThrowForce);
 
         m_HeldObject = null;
+    }
+
+    public void StartStunned()
+    {
+        if (m_Animator.GetBool("Dance"))
+        {
+            m_Animator.SetBool("Dance", false);
+        }
+        if (m_Animator.GetBool("Run"))
+        {
+            m_Animator.SetBool("Run", false);
+        }
+        if (!m_Animator.GetBool("Stunned"))
+        {
+            m_Animator.SetBool("Stunned", true);
+        }
+    }
+
+    public void OnStunnedEnd()
+    {
+        if (m_Animator.GetBool("Stunned"))
+        {
+            m_Animator.SetBool("Stunned", false);
+        }
+    }
+
+    public override void StartDance()
+    {
+        base.StartDance();
+        if (m_Animator.GetBool("Stunned"))
+        {
+            m_Animator.SetBool("Stunned", false);
+        }
     }
 }

@@ -11,19 +11,19 @@ public class SaxophoneEffect : BaseEffect
 	private List<float> m_BaseGrabbersSpeed = new List<float>();
 	private List<float> m_BaseRunnersSpeed = new List<float>();
 
-	//PROTO_ONLY
-	private GameObject m_MusicImage;
+	private GameObject m_MusicFeedback;
+
 	private void Awake()
 	{
 		base.m_Type = PowerupType.Saxophone;
-		m_MusicImage = GetComponent<Runner>().m_MusicImage;
+		m_MusicFeedback = GetComponent<Runner>().m_MusicFeedback;
 	}
 
 	public override void PlayEffect()
 	{
 		SetGrabbersSpeedToZero();
 		SetRunnersSpeedToZero();
-		m_MusicImage.SetActive(true);
+		m_MusicFeedback.SetActive(true);
 		StartCoroutine("EffectTimer");
 	}
 
@@ -31,7 +31,7 @@ public class SaxophoneEffect : BaseEffect
 	{
 		yield return new WaitForSeconds(m_EffectDuration);
 		ResetCharactersSpeed();
-		m_MusicImage.SetActive(false);
+		m_MusicFeedback.SetActive(false);
 		yield return new WaitForSeconds(0.1f);
 		Destroy(this);	
 	}
@@ -57,6 +57,7 @@ public class SaxophoneEffect : BaseEffect
 						{
 							m_BaseGrabbersSpeed.Add(m_Grabbers[i].Speed);
 							m_Grabbers[i].SetSpeed(0f);
+                            m_Grabbers[i].StartDance();
 						}
 						else
 						{
@@ -94,6 +95,7 @@ public class SaxophoneEffect : BaseEffect
 							if(m_Runners[i] != gameObject.GetComponent<Runner>()) // Am I the Target Of My Own Saxophone
 							{
 								m_Runners[i].SetSpeed(0f);
+                                m_Runners[i].StartDance();
 							}
 						}
 						else // Already Frozen, Add Effect duration
@@ -113,11 +115,13 @@ public class SaxophoneEffect : BaseEffect
 		for (int i = 0; i < m_Grabbers.Count; i++)
 		{
 			m_Grabbers[i].SetSpeed(m_BaseGrabbersSpeed[i]);
+            m_Grabbers[i].OnDanceEnd();
 		}
 
 		for (int i = 0; i < m_Runners.Count; i++)
 		{
 			m_Runners[i].SetSpeed(m_BaseRunnersSpeed[i]);
+            m_Runners[i].OnDanceEnd();
 		}	
 	}
 }

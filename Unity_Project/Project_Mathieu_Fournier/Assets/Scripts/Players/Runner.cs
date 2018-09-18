@@ -3,13 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//How can i do this Any other way?
+public class PowerupInfo
+{
+    public int slot;
+    public PowerupType powerupType;
+}
+
 public class Runner : Character
 {
     private int m_Points = 0;
     [SerializeField]
+    private GameObject m_Visual;
+    [SerializeField]
     private GameObject m_TokenTrigger;
     [SerializeField]
     private GameObject m_MoneyBag;
+    private Vector3 m_BaseBagScale;
     private BaseEffect[] m_PowerUps = new BaseEffect[2];
 
     [HideInInspector]
@@ -26,8 +36,7 @@ public class Runner : Character
     public Action<int, PowerupType> OnPowerupAdded;
     public Action<int> OnPowerupRemoved;
 
-    //PROTO Only, To show Feedback!
-    public GameObject m_MusicImage;
+    public GameObject m_MusicFeedback;
 
     protected override void Awake()
     {
@@ -39,6 +48,7 @@ public class Runner : Character
         base.Start();
         m_Jar = null;
         m_Parent = null;
+        m_BaseBagScale = m_MoneyBag.transform.localScale;
     }
 
     protected override void Update()
@@ -211,9 +221,9 @@ public class Runner : Character
 
     public void ResetBag()
     {
-        m_MoneyBag.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        m_MoneyBag.transform.localScale = m_BaseBagScale;
         m_Points = 0;
-        OnPointChanged(0);
+        OnPointChanged(m_Points);
     }
 
     //Set the player parameters when it hide in a jar or when he is grabbed
@@ -232,8 +242,8 @@ public class Runner : Character
         }
         else if(a_Parent.tag == "Jar")
         {
-            m_Offset = new Vector3(0f, 0f, 0f);   
-            GetComponent<Renderer>().enabled = false;  
+            m_Offset = new Vector3(0f, 0f, 0f);
+            m_Visual.SetActive(false);  
             a_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = true;       
         }
     }
@@ -247,7 +257,7 @@ public class Runner : Character
             m_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = false;
         }
 
-        GetComponent<Renderer>().enabled = true;
+        m_Visual.SetActive(true);
 
         m_HisHeld = false;
         m_Rigid.isKinematic = false;
@@ -265,7 +275,6 @@ public class Runner : Character
             case PowerupType.Saxophone:
             {
                 m_PowerUps[a_Slot] = gameObject.AddComponent<SaxophoneEffect>();
-
                 OnPowerupAdded(a_Slot, PowerupType.Saxophone);
                 break;
             }  

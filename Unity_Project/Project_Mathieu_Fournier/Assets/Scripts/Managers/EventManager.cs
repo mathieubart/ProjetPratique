@@ -12,12 +12,6 @@ public enum EventID
     //Audio Related Events
     UpdateMusic,
     PlaySFX,
-
-    //Player/Team Related Events
-    UpdatePoints,
-    AddPowerUp,
-    RemovePowerUp,
-    DepositCoin
 }
 
 public class EventManager : MonoBehaviour 

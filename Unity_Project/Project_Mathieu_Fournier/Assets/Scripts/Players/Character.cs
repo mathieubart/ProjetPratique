@@ -36,6 +36,9 @@ public class Character : MonoBehaviour
     protected Vector3 m_MoveDirection;
 	protected Rigidbody m_Rigid;
 
+    [SerializeField]
+    protected Animator m_Animator;
+
     protected virtual void Awake()
     {
         if(m_CharacterData != null)
@@ -96,10 +99,20 @@ public class Character : MonoBehaviour
     //Move the player forward or backward
     public void Move()
     {
+        if(m_MoveDirection != Vector3.zero && !m_Animator.GetBool("Run"))
+        {
+            m_Animator.SetBool("Run", true);        
+        }
+        else if(m_MoveDirection == Vector3.zero && m_Animator.GetBool("Run"))
+        {
+            m_Animator.SetBool("Run", false);
+        }
+
         float velocityY = m_Rigid.velocity.y;
 
         m_MoveDirection.y = velocityY;
         m_Rigid.velocity = m_MoveDirection;
+        
     }
 
     //Rotate the player to face his direction
@@ -164,5 +177,25 @@ public class Character : MonoBehaviour
 	public void SetSpeed(float a_NewSpeed)
     {
         m_Speed = a_NewSpeed;
+    }
+
+    public virtual void StartDance()
+    {
+        if (!m_Animator.GetBool("Dance"))
+        {
+            m_Animator.SetBool("Dance", true);
+        }
+        if (m_Animator.GetBool("Run"))
+        {
+            m_Animator.SetBool("Run", false);
+        }
+    }
+
+    public void OnDanceEnd()
+    {
+        if (m_Animator.GetBool("Dance"))
+        {
+            m_Animator.SetBool("Dance", false);
+        }
     }
 }

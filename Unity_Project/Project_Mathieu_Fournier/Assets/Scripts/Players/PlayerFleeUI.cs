@@ -57,12 +57,12 @@ public class PlayerFleeUI : MonoBehaviour
 
 	private void SetText(int a_Number)
 	{
-		m_PointTextMesh.text = ((int)a_Number).ToString();
+		m_PointTextMesh.text = a_Number.ToString();
 	}
 
-	private void AddPowerup(int a_Slot, PowerupType a_PowerupType)
+	private void AddPowerup(int a_Slot, PowerupType a_Powerup)
 	{
-		ShowPowerUp((int)a_Slot, (PowerupType)a_PowerupType);			
+		ShowPowerUp(a_Slot, a_Powerup);			
 	}
 
 	public void ShowPowerUp(int a_Slot, PowerupType a_Type)
@@ -107,12 +107,12 @@ public class PlayerFleeUI : MonoBehaviour
 
 	public void RemovePowerUp(int a_Slot)
 	{
-		if((int)a_Slot == 0)
+		if(a_Slot == 0)
 		{
 			m_UISax01.SetActive(false);
 			//m_UIBoot01.SetActive(false);			
 		}
-		else if((int)a_Slot == 1)
+		else if(a_Slot == 1)
 		{
 			m_UISax02.SetActive(false);
 			//m_UIBoot02.SetActive(false);	

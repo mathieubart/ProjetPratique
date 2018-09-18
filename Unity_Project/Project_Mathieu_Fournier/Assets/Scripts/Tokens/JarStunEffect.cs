@@ -39,6 +39,7 @@ public class JarStunEffect : MonoBehaviour
 	{
 		yield return new WaitForSeconds(m_EffectDuration);
 		m_PlayerGrab.SetSpeed(m_BaseSpeed);
+        m_PlayerGrab.OnStunnedEnd();
 		yield return new WaitForSeconds(0.1f);
 		Destroy(this);	
 	}
