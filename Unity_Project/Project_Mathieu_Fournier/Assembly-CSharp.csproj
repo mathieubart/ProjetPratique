@@ -114,6 +114,7 @@
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineMixer.cs" />
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineShot.cs" />
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineTrack.cs" />
+    <Compile Include="Assets\Scripts\Audio\SFXAudio.cs" />
     <Compile Include="Assets\Scripts\Cheats\CheatCodes.cs" />
     <Compile Include="Assets\Scripts\Chest\Chest.cs" />
     <Compile Include="Assets\Scripts\Enums\EPoolType.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Assets\Scripts\Menus\MainMenu\MenuController.cs" />
     <Compile Include="Assets\Scripts\Menus\StartMenu\StartMenu.cs" />
     <Compile Include="Assets\Scripts\Players\Character.cs" />
+    <Compile Include="Assets\Scripts\Players\FreeLookUserInput.cs" />
     <Compile Include="Assets\Scripts\Players\Grabber.cs" />
     <Compile Include="Assets\Scripts\Players\Player.cs" />
     <Compile Include="Assets\Scripts\Players\PlayerFleeUI.cs" />

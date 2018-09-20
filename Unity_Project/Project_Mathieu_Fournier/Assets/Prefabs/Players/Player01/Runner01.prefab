@@ -489,6 +489,7 @@ GameObject:
   - component: {fileID: 4189532779951576}
   - component: {fileID: 114779718914029186}
   - component: {fileID: 114995530192004280}
+  - component: {fileID: 114870908212243204}
   m_Layer: 12
   m_Name: CinemachineCam
   m_TagString: Untagged
@@ -2523,8 +2524,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1987713217809908}
-  m_LocalRotation: {x: 0.17842482, y: -0, z: -0, w: 0.98395354}
-  m_LocalPosition: {x: 0, y: 3, z: -4}
+  m_LocalRotation: {x: 0.1784247, y: -0, z: -0, w: 0.9839536}
+  m_LocalPosition: {x: -2.3874612, y: 2.7799993, z: -4.4062943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4773685383504716}
@@ -3776,7 +3777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
+  m_BindingMode: 5
   m_FollowOffset: {x: 0, y: 3, z: -4}
   m_XDamping: 0
   m_YDamping: 0
@@ -3870,7 +3871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
+  m_BindingMode: 5
   m_FollowOffset: {x: 0, y: 3, z: -4}
   m_XDamping: 0
   m_YDamping: 0
@@ -4136,6 +4137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CharacterData: {fileID: 11400000, guid: 9e5eb68a1b254ef459bde2f0520b193b, type: 2}
+  m_CamTransform: {fileID: 4365739194445358}
   m_GroundRaycaster: {fileID: 4716775809079066}
   m_FrontRaycasters:
   - {fileID: 4544215287565958}
@@ -4267,7 +4269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
+  m_BindingMode: 5
   m_FollowOffset: {x: 0, y: 3, z: -4}
   m_XDamping: 0
   m_YDamping: 0
@@ -4378,7 +4380,7 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
-  m_BindingMode: 1
+  m_BindingMode: 5
   m_SplineCurvature: 0.5
   m_Orbits:
   - m_Height: 5
@@ -4454,6 +4456,19 @@ MonoBehaviour:
   m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
+--- !u!114 &114870908212243204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1236869592895158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8998bf79f8f2b0f4da98e7cf617af5ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetPlayer: 1
+  m_Sensitivity: 15
 --- !u!114 &114980635482724012
 MonoBehaviour:
   m_ObjectHideFlags: 1

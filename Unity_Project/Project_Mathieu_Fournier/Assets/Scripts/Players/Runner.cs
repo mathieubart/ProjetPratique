@@ -53,21 +53,9 @@ public class Runner : Character
 
     protected override void Update()
     {
-        if (Input.GetAxis("Forward_" + m_ID.ToString()) > 0f || Input.GetAxis("LeftAnalogY_" + m_ID.ToString()) > 0f
-            && !RaycastPlayerForward())
-        {
-            m_MoveDirection = transform.forward * m_Speed;
-        }
-        else if(Input.GetAxis("Forward_" + m_ID.ToString()) < 0f || Input.GetAxis("LeftAnalogY_" + m_ID.ToString()) < 0f)
-        {
-            m_MoveDirection = -transform.forward * m_Speed;
-        }
-        else
-        {
-            m_MoveDirection = Vector3.zero;
-        }	
+        SetMoveDirection();
 
-        if(m_Parent != null)
+        if (m_Parent != null)
         {
             transform.position = m_Parent.transform.position + m_Offset;
             transform.rotation = m_Parent.rotation;
@@ -182,27 +170,9 @@ public class Runner : Character
     //Get Input And Set Direction
     protected override void SetDirection()
     {
-        m_Direction = Vector3.zero;
-
-        if(Input.GetAxis("LeftAnalogX_" + m_ID.ToString()) != 0f)
+        if(!m_HisHeld && IsGrounded() && !m_IsInAJar && m_MoveDirection != Vector3.zero)
         {
-            m_RotationSpeed = m_BaseRotationSpeed * m_Sensitivity * Mathf.Abs(Input.GetAxis("LeftAnalogX_" + m_ID.ToString()));
-        }
-        else
-        {
-            m_RotationSpeed = m_BaseRotationSpeed;
-        }
-
-        if(!m_HisHeld && IsGrounded() && !m_IsInAJar)
-        {
-            if (Input.GetAxis("Horizontal_" + m_ID.ToString()) < 0f || Input.GetAxis("LeftAnalogX_" + m_ID.ToString()) < 0f)
-            {
-                m_Direction -= transform.right;
-            }
-            if (Input.GetAxis("Horizontal_" + m_ID.ToString()) > 0f || Input.GetAxis("LeftAnalogX_" + m_ID.ToString()) > 0f)
-            {
-                m_Direction += transform.right;
-            }
+            m_Direction = m_MoveDirection;
         }
     }
 
