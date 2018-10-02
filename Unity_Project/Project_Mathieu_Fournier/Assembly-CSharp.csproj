@@ -142,6 +142,7 @@
     <Compile Include="Assets\Scripts\Tokens\BaseEffect.cs" />
     <Compile Include="Assets\Scripts\Tokens\BootEffect.cs" />
     <Compile Include="Assets\Scripts\Tokens\JarStunEffect.cs" />
+    <Compile Include="Assets\Scripts\Tokens\PowerupType.cs" />
     <Compile Include="Assets\Scripts\Tokens\SaxophoneEffect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

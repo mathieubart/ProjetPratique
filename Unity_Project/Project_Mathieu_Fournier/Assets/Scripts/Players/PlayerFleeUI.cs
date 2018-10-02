@@ -4,12 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum PowerupType
-{
-	Saxophone = 0,
-	//Boots = 1 No Boots Yet In The Game. MathF
-}
-
 public class PlayerFleeUI : MonoBehaviour 
 {
 	[SerializeField]
@@ -21,21 +15,17 @@ public class PlayerFleeUI : MonoBehaviour
 	[SerializeField]
 	private GameObject m_UISax02;
 
-	/* No Boots Yet In The Game
 	[SerializeField]
 	private GameObject m_UIBoot01;
 	[SerializeField]
 	private GameObject m_UIBoot02;
-	*/
 	
 	private void Start()
 	{
 		m_UISax01.SetActive(false);
 		m_UISax02.SetActive(false);
-		/* No Boots Yet In The Game
 		m_UIBoot01.SetActive(false);
 		m_UIBoot02.SetActive(false);
-		*/
 
 		SetText(0);
 	}
@@ -76,13 +66,11 @@ public class PlayerFleeUI : MonoBehaviour
 					m_UISax01.SetActive(true);
 					break;
 				}
-				/* 	No Boots Yet In The Game. MathF
 				case PowerupType.Boots:
 				{
 					m_UIBoot01.SetActive(true);
 					break;
 				}
-				*/
 			}
 		}
 		else if(a_Slot == 1)
@@ -94,13 +82,11 @@ public class PlayerFleeUI : MonoBehaviour
 					m_UISax02.SetActive(true);
 					break;
 				}
-				/* 	No Boots Yet In The Game. MathF
 				case PowerupType.Boots:
 				{
 					m_UIBoot02.SetActive(true);
 					break;
 				}
-				*/
 			}
 		}
 	}
@@ -110,12 +96,12 @@ public class PlayerFleeUI : MonoBehaviour
 		if(a_Slot == 0)
 		{
 			m_UISax01.SetActive(false);
-			//m_UIBoot01.SetActive(false);			
+			m_UIBoot01.SetActive(false);			
 		}
 		else if(a_Slot == 1)
 		{
 			m_UISax02.SetActive(false);
-			//m_UIBoot02.SetActive(false);	
+			m_UIBoot02.SetActive(false);	
 		}
 	}
 }

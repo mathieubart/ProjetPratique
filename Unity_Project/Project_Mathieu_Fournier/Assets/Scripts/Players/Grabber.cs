@@ -14,6 +14,9 @@ public class Grabber : Character
     private GameObject m_HeldObject;
     private List<GameObject> m_GrabablePots = new List<GameObject>();
 
+    private bool m_CanGrab = true;
+    private const float SILENCED_TIME = 0.5f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,7 +47,7 @@ public class Grabber : Character
             {
                 Throw();
             }
-	        else if (m_GrabAbleObject != null)
+	        else if (m_GrabAbleObject != null && m_CanGrab)
             {        
                 Grab();            
             }      
@@ -180,6 +183,24 @@ public class Grabber : Character
         m_HeldObject = null;
     }
 
+    public void Drop()
+    {
+        if (m_HeldObject.name == "Runner")
+        {
+            m_HeldObject.GetComponent<Runner>().OnRelease();
+        }
+        else if (m_HeldObject.tag == "Jar")
+        {
+            m_HeldObject.GetComponent<Jar>().OnRelease();
+        }
+
+        m_HeldObject.GetComponent<Rigidbody>().velocity = m_Rigid.velocity;
+
+        m_HeldObject = null;
+
+        StartCoroutine(WaitForGrabEnable());
+    }
+
     public void StartStunned()
     {
         if (m_Animator.GetBool("Dance"))
@@ -211,5 +232,13 @@ public class Grabber : Character
         {
             m_Animator.SetBool("Stunned", false);
         }
+    }
+
+    //The player cant grab anything for a amount of time
+    private IEnumerator WaitForGrabEnable()
+    {
+        m_CanGrab = false;
+        yield return new WaitForSeconds(SILENCED_TIME);
+        m_CanGrab = true;
     }
 }

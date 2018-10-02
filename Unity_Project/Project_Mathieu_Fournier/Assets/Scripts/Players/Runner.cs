@@ -20,7 +20,7 @@ public class Runner : Character
     [SerializeField]
     private GameObject m_MoneyBag;
     private Vector3 m_BaseBagScale;
-    private BaseEffect[] m_PowerUps = new BaseEffect[2];
+    private PowerupType[] m_PowerUps = new PowerupType[2];
 
     [HideInInspector]
     public bool m_HisHeld {get; set;}
@@ -31,12 +31,17 @@ public class Runner : Character
     [HideInInspector]
     public Transform m_Jar;
     private Transform m_Parent;
+    public Transform GetParent()
+    {
+        return m_Parent;
+    }
 
     public Action<int> OnPointChanged;
     public Action<int, PowerupType> OnPowerupAdded;
     public Action<int> OnPowerupRemoved;
 
     public GameObject m_MusicFeedback;
+    public GameObject m_BootsFeedback; //TODO : Particle trail at the runners feet
 
     protected override void Awake()
     {
@@ -49,6 +54,10 @@ public class Runner : Character
         m_Jar = null;
         m_Parent = null;
         m_BaseBagScale = m_MoneyBag.transform.localScale;
+        m_BootsFeedback.SetActive(false);
+
+        m_PowerUps[0] = PowerupType.Empty;
+        m_PowerUps[1] = PowerupType.Empty;
     }
 
     protected override void Update()
@@ -83,12 +92,12 @@ public class Runner : Character
             }
         }
 
-        if(Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != null)
+        if(Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != PowerupType.Empty)
         {
             ActivatePowerUp(0);
         }
 
-        if(Input.GetButtonDown("Powerup02_" + m_ID.ToString()) && m_PowerUps[1] != null)
+        if(Input.GetButtonDown("Powerup02_" + m_ID.ToString()) && m_PowerUps[1] != PowerupType.Empty)
         {
             ActivatePowerUp(1);
         }
@@ -124,7 +133,7 @@ public class Runner : Character
             if(aCol.GetComponent<Chest>() != null)
             for (int i = 0; i < m_PowerUps.Length; i++)
             {
-                if(m_PowerUps[i] == null)
+                if(m_PowerUps[i] == PowerupType.Empty)
                 {
                     aCol.GetComponent<Chest>().Loot(this, i);
                     break;
@@ -135,7 +144,7 @@ public class Runner : Character
         {
             for (int i = 0; i < m_PowerUps.Length; i++)
             {
-                if(m_PowerUps[i] == null)
+                if(m_PowerUps[i] == PowerupType.Empty)
                 {
                     AddPowerUp(i, PowerupType.Saxophone);
                     aCol.gameObject.SetActive(false);
@@ -143,19 +152,18 @@ public class Runner : Character
                 }
             }
         }
-        /* Boots Are Not In The Game Yet. MathF
         else if(aCol.tag == "Boot")
         {
             for (int i = 0; i < m_PowerUps.Length; i++)
             {
-                if(m_PowerUps[i] == null)
+                if(m_PowerUps[i] == PowerupType.Empty)
                 {
                     AddPowerUp(i, PowerupType.Boots);
                     aCol.gameObject.SetActive(false);
+                    break;
                 }
             }        
         }
-        */
     }
 
     //Remove the jar reference if he is no longer at range
@@ -244,27 +252,37 @@ public class Runner : Character
         {
             case PowerupType.Saxophone:
             {
-                m_PowerUps[a_Slot] = gameObject.AddComponent<SaxophoneEffect>();
+                m_PowerUps[a_Slot] = PowerupType.Saxophone;
                 OnPowerupAdded(a_Slot, PowerupType.Saxophone);
                 break;
-            }  
-            /* No Boots In The Game Yet MathF              
+            }              
             case PowerupType.Boots:
             {
-                m_PowerUps[a_Slot] = gameObject.AddComponent<BootEffect>();
-
+                m_PowerUps[a_Slot] = PowerupType.Boots;
                 OnPowerupAdded(a_Slot, PowerupType.Boots);
                 break;
-            }
-            */  
+            } 
         }
     }
 
     //Activate a powerup if there is a powerup in the input corresponding Slot.
     private void ActivatePowerUp(int a_Slot)
     {
-        m_PowerUps[a_Slot].PlayEffect();
-        m_PowerUps[a_Slot] = null;
+        switch (m_PowerUps[a_Slot])
+        {
+            case PowerupType.Saxophone:
+                {
+                    gameObject.AddComponent<SaxophoneEffect>().PlayEffect();
+                    break;
+                }
+            case PowerupType.Boots:
+                {
+                    gameObject.AddComponent<BootEffect>().PlayEffect();
+                    break;
+                }
+        }
+
+        m_PowerUps[a_Slot] = PowerupType.Empty;
         OnPowerupRemoved(a_Slot);
     }
 

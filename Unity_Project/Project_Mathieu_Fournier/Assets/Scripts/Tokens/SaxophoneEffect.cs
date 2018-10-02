@@ -4,37 +4,30 @@ using UnityEngine;
 
 public class SaxophoneEffect : BaseEffect 
 {
-	[HideInInspector]
-	public float m_EffectDuration = 3f;
 	private List<Grabber> m_Grabbers = new List<Grabber>();
 	private List<Runner> m_Runners = new List<Runner>();
 	private List<float> m_BaseGrabbersSpeed = new List<float>();
 	private List<float> m_BaseRunnersSpeed = new List<float>();
 
-	private GameObject m_MusicFeedback;
-
 	private void Awake()
 	{
-		base.m_Type = PowerupType.Saxophone;
-		m_MusicFeedback = GetComponent<Runner>().m_MusicFeedback;
+		m_Type = PowerupType.Saxophone;
+		m_EffectFeedback = GetComponent<Runner>().m_MusicFeedback;
 	}
 
 	public override void PlayEffect()
 	{
 		SetGrabbersSpeedToZero();
 		SetRunnersSpeedToZero();
-		m_MusicFeedback.SetActive(true);
-		StartCoroutine("EffectTimer");
+		m_EffectFeedback.SetActive(true);
 	}
 
-	private IEnumerator EffectTimer()
-	{
-		yield return new WaitForSeconds(m_EffectDuration);
-		ResetCharactersSpeed();
-		m_MusicFeedback.SetActive(false);
-		yield return new WaitForSeconds(0.1f);
-		Destroy(this);	
-	}
+    protected override void StopEffect()
+    {
+        ResetCharactersSpeed();
+        m_EffectFeedback.SetActive(false);
+        Destroy(this);
+    }
 
 	private void SetGrabbersSpeedToZero()
 	{
