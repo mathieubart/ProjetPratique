@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if(LevelManager.Instance == null)
+        if(AudioManager.Instance == null)
         {
             m_Instance = this;
         }

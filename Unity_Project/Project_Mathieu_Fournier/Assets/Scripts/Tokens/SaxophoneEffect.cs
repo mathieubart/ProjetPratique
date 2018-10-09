@@ -20,6 +20,7 @@ public class SaxophoneEffect : BaseEffect
 		SetGrabbersSpeedToZero();
 		SetRunnersSpeedToZero();
 		m_EffectFeedback.SetActive(true);
+        AudioManager.Instance.PlaySFX(0, "Saxophone_Effect", transform.position);
 	}
 
     protected override void StopEffect()

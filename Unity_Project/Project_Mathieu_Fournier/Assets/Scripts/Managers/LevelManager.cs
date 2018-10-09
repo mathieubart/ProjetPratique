@@ -64,13 +64,13 @@ public class LevelManager : MonoBehaviour
         {
             case (int)EScenes.StartMenu:
                 {
-                    //AudioManager.Instance.SwitchMusic("XXYYXX - Rad Racer", 0.1f);
+                    AudioManager.Instance.SwitchMusic("Blues_Intro", 0.1f);
                     break;
                 }            
 			case (int)EScenes.MainMenu:
                 {
 					TeamManager.Instance.ResetSpawnPos();          
-                    //AudioManager.Instance.SwitchMusic("XXYYXX - Rad Racer", 0.1f);
+                    AudioManager.Instance.SwitchMusic("Blues_BadToTheBone", 0.1f);
                     break;
                 }
 			case (int)EScenes.Levels:
@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
 					{
 						UIs[i].Init();
 					}
-                    //AudioManager.Instance.SwitchMusic("XXYYXX - Rad Racer", 0.1f);
+                    AudioManager.Instance.SwitchMusic("Austin_Blues", 0.1f);
                     break;
                 }            
         }

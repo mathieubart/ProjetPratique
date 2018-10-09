@@ -186,8 +186,10 @@ public class Runner : Character
 
     //Grow The Bag Size or reset the Size if the bool is true.
     public void GrowBag()
-    {      
-        if(m_MoneyBag.transform.localScale.y <= 1f)
+    {     
+        AudioManager.Instance.PlaySFX(0, "Coin01", transform.position);
+
+        if (m_MoneyBag.transform.localScale.y <= 1f)
         {
             m_MoneyBag.transform.localScale += new Vector3(0f, 0.1f, 0f); 
         }
@@ -199,6 +201,7 @@ public class Runner : Character
 
     public void ResetBag()
     {
+        StartCoroutine(PlayCoinDepositSFX(m_Points, 0.15f));
         m_MoneyBag.transform.localScale = m_BaseBagScale;
         m_Points = 0;
         OnPointChanged(m_Points);
@@ -222,7 +225,8 @@ public class Runner : Character
         {
             m_Offset = new Vector3(0f, 0f, 0f);
             m_Visual.SetActive(false);  
-            a_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = true;       
+            a_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = true;    
+            AudioManager.Instance.PlaySFX(0, "Jar", transform.position);
         }
     }
 
@@ -233,6 +237,7 @@ public class Runner : Character
         {
             transform.position = m_Parent.position + new Vector3(0f, 1f, 0f);
             m_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = false;
+            AudioManager.Instance.PlaySFX(0, "Jar", transform.position);
         }
 
         m_Visual.SetActive(true);
@@ -263,6 +268,8 @@ public class Runner : Character
                 break;
             } 
         }
+
+        AudioManager.Instance.PlaySFX(0, "Token_Grab", transform.position);
     }
 
     //Activate a powerup if there is a powerup in the input corresponding Slot.
@@ -289,5 +296,18 @@ public class Runner : Character
     public int GetPoints()
     {
         return m_Points;
+    }
+
+    private IEnumerator PlayCoinDepositSFX(int a_CoinAmount, float a_WaitTime)
+    {
+        WaitForSeconds wait = new WaitForSeconds(a_WaitTime);
+        Vector3 depositPos = transform.position;
+
+        for(int i = 0; i < a_CoinAmount; i++)
+        {
+            AudioManager.Instance.PlaySFX(0, "Coin_Deposit", depositPos);
+
+            yield return wait;
+        }
     }
 }

@@ -369,8 +369,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f65771b50e0f90e4bb632818b8f5a830, type: 3}
   - {fileID: 8300000, guid: 3803de5373773d0408981f14fc792326, type: 3}
   - {fileID: 8300000, guid: 89b1d90e84db3194aa53264e8b42bcec, type: 3}
-  m_SFXAudios: []
-  m_SFXClips: []
+  m_SFXAudios:
+  - {fileID: 114535537807044418, guid: eac8bae03f3e312418c2962b9b87620a, type: 2}
+  m_SFXClips:
+  - {fileID: 8300000, guid: a91797ad1125ef04f8a195f65d0cd77c, type: 3}
+  - {fileID: 8300000, guid: 264b5b9c9a0e9304d828e2ec5da17a1f, type: 3}
+  - {fileID: 8300000, guid: f674255386ae426428a067a8335ad222, type: 3}
+  - {fileID: 8300000, guid: 9573a323cc9c1714ea2dc46865a6d674, type: 3}
+  - {fileID: 8300000, guid: fe7b26bb90cf4ac4d8cc2d6d88795b8e, type: 3}
+  - {fileID: 8300000, guid: a67dd8608c2f6b44b87247962ff23245, type: 3}
+  - {fileID: 8300000, guid: 01b8266052e7f9c4ab03613923f54c68, type: 3}
+  - {fileID: 8300000, guid: 0fe763ce0e896704cbcfaedbf2765c1f, type: 3}
+  - {fileID: 8300000, guid: 15a31fc90a194124ba92345e07955500, type: 3}
+  - {fileID: 8300000, guid: db9559671c1748b4fa2d16b3cf0405a6, type: 3}
+  - {fileID: 8300000, guid: dbb353625e62ce64d8ecdd663f52033a, type: 3}
   m_UniqueClipNames: []
 --- !u!4 &1862998028
 Transform:
@@ -398,7 +410,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

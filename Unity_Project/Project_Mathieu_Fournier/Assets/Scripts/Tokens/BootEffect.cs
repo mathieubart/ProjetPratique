@@ -25,6 +25,7 @@ public class BootEffect : BaseEffect
         }
 
         SetRunnerSpeed();
+        AudioManager.Instance.PlaySFX(0, "Boots_Effect", transform.position);
     }
 
     protected override void StopEffect()
