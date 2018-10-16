@@ -8,6 +8,10 @@ public class Truck : MonoBehaviour
 	[SerializeField]
 	[Range(0, 1)]
 	private int m_TeamAssigned;
+    public int GetTeamAssigned()
+    {
+        return m_TeamAssigned;
+    }
 
 	[SerializeField]
 	private Transform m_Spawn01;
@@ -54,7 +58,7 @@ public class Truck : MonoBehaviour
         }
     }
 
-    private void GrowDiamondPileSizeBy(int a_Size)
+    public void GrowDiamondPileSizeBy(int a_Size)
     {
         m_DiamondPile.localScale += a_Size * m_DiamondPileGrowAmount;
     }

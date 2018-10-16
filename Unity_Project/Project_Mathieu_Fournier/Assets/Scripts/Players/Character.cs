@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System.Resources;
 
 
 public class Character : MonoBehaviour 
@@ -54,9 +55,19 @@ public class Character : MonoBehaviour
         {
             Debug.LogError("You forgot to put assign a CharacterData in the inspector. Mathieu F");
         }
+
+#if CHEATS_ACTIVATED
+        if (CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            CheatManager.Instance.AddText("Press 4 to Spawn a Coin \n");
+            CheatManager.Instance.AddText("Press 5 to Spawn a Jar \n");
+            CheatManager.Instance.AddText("Press 6 to Spawn a Saxophone \n");
+            CheatManager.Instance.AddText("Press 7 to Spawn a Boot \n");
+        }
+#endif
     }
 
-	protected virtual void Start()
+    protected virtual void Start()
 	{
         m_BaseRotationSpeed = m_RotationSpeed;
 		m_Direction = Vector3.zero;
@@ -74,7 +85,33 @@ public class Character : MonoBehaviour
 
         //Assign the direction soo the player rotate to the direction he is moving.
         Rotate();
-	}
+
+#if CHEATS_ACTIVATED
+        //Spawn a Coin
+        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Jar
+        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Sax
+        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Boot
+        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+#endif
+    }
 
     protected virtual void FixedUpdate()
     {

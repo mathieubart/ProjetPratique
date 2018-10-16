@@ -186,6 +186,14 @@ public class TeamManager : MonoBehaviour
 		m_Teams[a_Team].GameScore += a_Addition;
 	}
 
+    public void ResetGameScore()
+    {
+        for (int i = 0; i < m_Teams.Count; i++)
+        {
+            m_Teams[i].GameScore = 0;
+        }
+    }
+
 	public int GetLevelScore(int a_Team) 
 	{		
 		return m_Teams[a_Team].LevelScore;

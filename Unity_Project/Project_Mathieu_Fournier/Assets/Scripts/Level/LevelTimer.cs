@@ -7,8 +7,16 @@ public class LevelTimer : MonoBehaviour
 {
 	[SerializeField]
 	private TextMeshProUGUI m_LevelTimeText;
-	
-	[SerializeField]
+
+#if CHEATS_ACTIVATED
+    [SerializeField]
+    private TextMeshProUGUI m_CheatText;
+
+    private bool m_IsTimePaused = false;
+    private float m_PausedTime;
+#endif
+
+    [SerializeField]
 	private float m_LevelTime;
 	private float m_TimeRemaining;
 
@@ -29,6 +37,15 @@ public class LevelTimer : MonoBehaviour
 	{
 		m_TimeRemaining = m_LevelTime;
         m_BaseScale = m_LevelTimeText.rectTransform.localScale;
+
+#if CHEATS_ACTIVATED
+        if (CheatManager.Instance)
+        {
+            CheatManager.Instance.m_UIText = m_CheatText;
+            CheatManager.Instance.AddText("Press 0 to End the level. \n");
+            CheatManager.Instance.AddText("Press 1 to Stop/Resume Level Timer. \n");
+        }
+#endif
 	}
 
 	private void Update()
@@ -48,7 +65,36 @@ public class LevelTimer : MonoBehaviour
 			LevelManager.Instance.ChangeScene(EScenes.MainMenu);
 			m_MenuIsLoaded = true;
 		}
-	}
+
+#if CHEATS_ACTIVATED
+
+        //Stop/Repaly the Level Time
+        if (Input.GetKeyDown(KeyCode.Alpha1) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            if(!m_IsTimePaused)
+            {
+                m_PausedTime = m_TimeRemaining;
+                m_IsTimePaused = true;
+            }
+            else
+            {
+                m_IsTimePaused = false;
+            }
+        }
+
+        //Lock the time if time paused
+        if(m_IsTimePaused)
+        {
+            m_TimeRemaining = m_PausedTime;
+        }
+
+        //End the level
+        if (Input.GetKeyDown(KeyCode.Alpha0) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            CheatEndTurn();
+        }
+#endif
+    }
 
     private IEnumerator PlayAlarm() //Scale up and down the text and set it red.
     {
@@ -73,4 +119,11 @@ public class LevelTimer : MonoBehaviour
             }
         }
     }
+
+#if CHEATS_ACTIVATED
+    public void CheatEndTurn()
+    {
+        m_TimeRemaining = 0f;
+    }
+#endif
 }

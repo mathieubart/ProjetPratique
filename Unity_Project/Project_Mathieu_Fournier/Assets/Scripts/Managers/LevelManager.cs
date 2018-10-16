@@ -50,7 +50,14 @@ public class LevelManager : MonoBehaviour
 			TeamManager.Instance.DeleteCharacters();	
 		}
 
-		StartCoroutine(FadeInScenes(a_Scene));
+#if CHEATS_ACTIVATED
+        if (CheatManager.Instance)
+        {
+            CheatManager.Instance.ResetTexts();
+        }
+#endif
+
+        StartCoroutine(FadeInScenes(a_Scene));
 	}
 
 	private void OnLoadingDone(Scene a_Scene, LoadSceneMode i_Mode)

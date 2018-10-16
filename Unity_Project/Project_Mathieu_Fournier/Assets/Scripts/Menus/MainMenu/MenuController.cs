@@ -15,8 +15,10 @@ public class MenuController : MonoBehaviour
 
 	[SerializeField]
 	private TextMeshProUGUI m_PressStartText;
+    [SerializeField]
+    private TextMeshProUGUI m_PressRematchText;
 
-	[SerializeField]
+    [SerializeField]
 	private float m_DistributionTime = 5f;
 	[SerializeField]
 	private ParticleSystem m_ParticleST01; //Particle System Team 01.
@@ -32,19 +34,16 @@ public class MenuController : MonoBehaviour
 	[SerializeField]
 	private GameObject m_LooseTeam02;
 
-	private Coroutine m_DistributionRoutine;
+    private Coroutine m_DistributionRoutine;
 
 	private List<int> m_LevelScores = new List<int>();
 
 
 	private void Awake()
 	{
-		m_PressStartText.enabled = false;
-		m_WinTeam01.SetActive(false);
-		m_WinTeam02.SetActive(false);
-		m_LooseTeam01.SetActive(false);
-		m_LooseTeam02.SetActive(false);
-		m_ParticleST01.Stop();
+        HideUI();
+
+        m_ParticleST01.Stop();
 		m_ParticleST02.Stop();
 		m_ScoreSliderTeam01.maxValue = m_WinningGameScore;
 		m_ScoreSliderTeam02.maxValue = m_WinningGameScore;
@@ -69,10 +68,17 @@ public class MenuController : MonoBehaviour
 
 	private void Update()
 	{
-		if(m_PressStartText.enabled && Input.GetButtonDown("Action_PlayerOne"))
-		{
-			LevelManager.Instance.ChangeScene(EScenes.Levels);
-		}
+        if (Input.GetButtonDown("Action_PlayerOne"))
+        {
+            if (m_PressStartText.enabled)
+            {
+                LevelManager.Instance.ChangeScene(EScenes.Levels);
+            }
+            else if(m_PressRematchText.enabled)
+            {
+                ResetGame();
+            }
+        }
 
 		if(TeamManager.Instance.GetGameScore(0) >= m_WinningGameScore)
 		{
@@ -86,6 +92,8 @@ public class MenuController : MonoBehaviour
 			}
 			m_WinTeam01.SetActive(true);
 			m_LooseTeam02.SetActive(true);
+            m_PressRematchText.enabled = true;
+            m_PressStartText.enabled = false;
 		}	
 		else if(TeamManager.Instance.GetGameScore(1) >= m_WinningGameScore)
 		{
@@ -98,9 +106,35 @@ public class MenuController : MonoBehaviour
 				m_ParticleST02.Stop();
 			}
 			m_WinTeam02.SetActive(true);
-			m_LooseTeam01.SetActive(true);			
-		}
+			m_LooseTeam01.SetActive(true);
+            m_PressRematchText.enabled = true;
+            m_PressStartText.enabled = false;
+        }
 	}
+
+    private void ResetGame()
+    {
+        TeamManager.Instance.ResetGameScore();
+
+        m_ScoreSliderTeam01.value = TeamManager.Instance.GetGameScore(0);
+        m_ScoreSliderTeam02.value = TeamManager.Instance.GetGameScore(1);
+
+        HideUI();
+
+        TeamManager.Instance.ResetLevelScores();
+
+        ShowText();
+    }
+
+    private void HideUI()
+    {
+        m_PressStartText.enabled = false;
+        m_PressRematchText.enabled = false;
+        m_WinTeam01.SetActive(false);
+        m_WinTeam02.SetActive(false);
+        m_LooseTeam01.SetActive(false);
+        m_LooseTeam02.SetActive(false);
+    }
 
 	private void ShowText()
 	{

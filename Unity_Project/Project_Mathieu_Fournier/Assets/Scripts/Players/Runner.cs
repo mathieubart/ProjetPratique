@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Resources;
 
 //How can i do this Any other way?
 public class PowerupInfo
@@ -41,11 +42,19 @@ public class Runner : Character
     public Action<int> OnPowerupRemoved;
 
     public GameObject m_MusicFeedback;
-    public GameObject m_BootsFeedback; //TODO : Particle trail at the runners feet
+    public GameObject m_BootsFeedback; //TODO : Particle trail at the runners feet5
 
     protected override void Awake()
     {
         base.Awake();
+
+#if CHEATS_ACTIVATED
+        if (CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            CheatManager.Instance.AddText("Press 2 to Deposit coins in Truck 01 \n");
+            CheatManager.Instance.AddText("Press 3 to Deposit coins in Truck 02 \n");
+        }
+#endif
     }
 
     protected override void Start()
@@ -101,6 +110,64 @@ public class Runner : Character
         {
             ActivatePowerUp(1);
         }
+
+#if CHEATS_ACTIVATED
+        //Coin deposit in team 01 truck 
+        if (Input.GetKeyDown(KeyCode.Alpha2) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
+
+            for(int i = 0; i < trucks.Length; i++)
+            {
+                if(trucks[i].GetTeamAssigned() == 0)
+                {
+                    trucks[i].GrowDiamondPileSizeBy(m_Points);
+                    TeamManager.Instance.ModifyLevelScore(0, m_Points);
+                    ResetBag();
+                }
+            }
+        }
+
+        //Coin deposit in team 02 truck 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
+
+            for (int i = 0; i < trucks.Length; i++)
+            {
+                if (trucks[i].GetTeamAssigned() == 1)
+                {
+                    trucks[i].GrowDiamondPileSizeBy(m_Points);
+                    TeamManager.Instance.ModifyLevelScore(1, m_Points);
+                    ResetBag();
+                }
+            }
+        }
+
+        //Spawn a Coin
+        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Jar
+        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Sax
+        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Boot
+        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+#endif
     }
 
     protected override void FixedUpdate()

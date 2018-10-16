@@ -531,7 +531,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 0
   scriptingDefineSymbols:
-    1: UNITY_CHEAT
+    1: CHEATS_ACTIVATED
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
