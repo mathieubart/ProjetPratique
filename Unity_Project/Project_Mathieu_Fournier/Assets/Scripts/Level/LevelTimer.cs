@@ -44,6 +44,7 @@ public class LevelTimer : MonoBehaviour
             CheatManager.Instance.m_UIText = m_CheatText;
             CheatManager.Instance.AddText("Press 0 to End the level. \n");
             CheatManager.Instance.AddText("Press 1 to Stop/Resume Level Timer. \n");
+            CheatManager.Instance.AddText("Press 9 to Remove 20 seconds to the Level Timer. \n");
         }
 #endif
 	}
@@ -92,6 +93,12 @@ public class LevelTimer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
         {
             CheatEndTurn();
+        }
+
+        //End the level
+        if (Input.GetKeyDown(KeyCode.Alpha9) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            m_TimeRemaining -= 20f;
         }
 #endif
     }

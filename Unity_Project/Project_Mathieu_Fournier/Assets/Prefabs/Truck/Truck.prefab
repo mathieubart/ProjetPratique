@@ -126,8 +126,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1836014352577054}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 23.9, y: 0, z: -31.9}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.9, y: 2e-15, z: 31.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4921574925476818}
@@ -178,7 +178,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: c8e00a013065d0043995f547c01b750c, type: 3}
+  - {fileID: 2100000, guid: 6750fb624f42a5540813c8efb3ff1009, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,8 +320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b2b8ef23c8e7c469897ebd1e58bcb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TeamAssigned: 0
+  m_TeamAssigned: 1
   m_Spawn01: {fileID: 4921574925476818}
   m_Spawn02: {fileID: 4496340852296040}
   m_DiamondPile: {fileID: 4097573170738904}
-  m_DiamondPileGrowAmount: {x: 0, y: 1, z: 0}
+  m_DiamondPileGrowAmount: {x: 0, y: 0.05, z: 0}
