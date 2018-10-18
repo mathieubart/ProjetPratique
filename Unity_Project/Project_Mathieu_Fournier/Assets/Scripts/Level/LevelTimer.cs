@@ -68,39 +68,9 @@ public class LevelTimer : MonoBehaviour
 		}
 
 #if CHEATS_ACTIVATED
-
-        //Stop/Repaly the Level Time
-        if (Input.GetKeyDown(KeyCode.Alpha1) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            if(!m_IsTimePaused)
-            {
-                m_PausedTime = m_TimeRemaining;
-                m_IsTimePaused = true;
-            }
-            else
-            {
-                m_IsTimePaused = false;
-            }
-        }
-
-        //Lock the time if time paused
-        if(m_IsTimePaused)
-        {
-            m_TimeRemaining = m_PausedTime;
-        }
-
-        //End the level
-        if (Input.GetKeyDown(KeyCode.Alpha0) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            CheatEndTurn();
-        }
-
-        //End the level
-        if (Input.GetKeyDown(KeyCode.Alpha9) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            m_TimeRemaining -= 20f;
-        }
+        Cheats();
 #endif
+
     }
 
     private IEnumerator PlayAlarm() //Scale up and down the text and set it red.
@@ -131,6 +101,41 @@ public class LevelTimer : MonoBehaviour
     public void CheatEndTurn()
     {
         m_TimeRemaining = 0f;
+    }
+
+    private void Cheats()
+    {
+        //Stop/Repaly the Level Time
+        if (Input.GetKeyDown(KeyCode.Alpha1) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            if (!m_IsTimePaused)
+            {
+                m_PausedTime = m_TimeRemaining;
+                m_IsTimePaused = true;
+            }
+            else
+            {
+                m_IsTimePaused = false;
+            }
+        }
+
+        //Lock the time if time paused
+        if (m_IsTimePaused)
+        {
+            m_TimeRemaining = m_PausedTime;
+        }
+
+        //End the level
+        if (Input.GetKeyDown(KeyCode.Alpha0) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            CheatEndTurn();
+        }
+
+        //End the level
+        if (Input.GetKeyDown(KeyCode.Alpha9) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            m_TimeRemaining -= 20f;
+        }
     }
 #endif
 }

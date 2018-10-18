@@ -11,7 +11,11 @@ public class LevelManager : MonoBehaviour
 	[SerializeField]
 	private Image m_SceneTransitionImage;
 
-	[SerializeField]
+    [SerializeField]
+    private Image m_Loading;
+
+
+    [SerializeField]
 	private float m_LoadingSceneTime;
 
 	private static LevelManager m_Instance;
@@ -31,6 +35,7 @@ public class LevelManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 		DontDestroyOnLoad(gameObject);
+        m_Loading.enabled = false;
 	}
 
 	private void Start()
@@ -40,7 +45,10 @@ public class LevelManager : MonoBehaviour
 
 	public void ChangeScene(EScenes a_Scene)
 	{
-        if(SceneManager.GetActiveScene().buildIndex == (int)EScenes.StartMenu)
+        m_Loading.enabled = true;
+        m_Loading.GetComponent<Animation>().Play();
+
+        if (SceneManager.GetActiveScene().buildIndex == (int)EScenes.StartMenu)
         {
             TeamManager.Instance.SetRandomCharacters();
         }
@@ -62,6 +70,8 @@ public class LevelManager : MonoBehaviour
 
 	private void OnLoadingDone(Scene a_Scene, LoadSceneMode i_Mode)
     {
+        m_Loading.enabled = false;
+
         //On enleve la fct de la liste de fct appelees par l'event OnLoadingDone de Unity.
         SceneManager.sceneLoaded -= OnLoadingDone;
 
@@ -116,7 +126,7 @@ public class LevelManager : MonoBehaviour
 			yield return null;
 		}
 
-		SceneManager.LoadScene((int)a_Scene);
+		SceneManager.LoadSceneAsync((int)a_Scene);
 		SceneManager.sceneLoaded += OnLoadingDone;
 	}
 

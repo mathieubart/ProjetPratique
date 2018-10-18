@@ -52,6 +52,20 @@ public class Grabber : Character
                 Grab();            
             }      
         }
+
+#if KEYBOARD_TEST
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (m_HeldObject != null)
+            {
+                Throw();
+            }
+            else if (m_GrabAbleObject != null && m_CanGrab)
+            {
+                Grab();
+            }
+        }
+#endif
     }
 
     protected override void FixedUpdate()

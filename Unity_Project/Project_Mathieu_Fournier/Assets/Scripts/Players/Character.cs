@@ -77,6 +77,12 @@ public class Character : MonoBehaviour
 
 	protected virtual void Update()
 	{
+        m_MoveDirection = Vector3.zero;
+
+#if KEYBOARD_TEST
+        SetKeyBoardDirection();
+#endif
+
         //Set the direction of the player movement
         SetMoveDirection();
 
@@ -87,29 +93,7 @@ public class Character : MonoBehaviour
         Rotate();
 
 #if CHEATS_ACTIVATED
-        //Spawn a Coin
-        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Jar
-        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Sax
-        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Boot
-        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
+        Cheats();
 #endif
     }
 
@@ -120,15 +104,6 @@ public class Character : MonoBehaviour
 
     protected void SetMoveDirection()
     {
-        m_MoveDirection = Vector3.zero;
-
-        if (Input.GetAxis("Forward_" + m_ID.ToString()) != 0f)
-        {
-            Vector3 fwrd = Vector3.Normalize(m_CamTransform.forward);
-            fwrd.y = 0f;
-            m_MoveDirection += fwrd * m_Speed * Input.GetAxis("Forward_" + m_ID.ToString());
-        }
-
         if (Input.GetAxis("LeftAnalogY_" + m_ID.ToString()) != 0f)
         {
             Vector3 fwrd = m_CamTransform.forward;
@@ -145,6 +120,31 @@ public class Character : MonoBehaviour
             m_MoveDirection += right * m_Speed * Input.GetAxis("LeftAnalogX_" + m_ID.ToString());
         }
     }
+
+#if KEYBOARD_TEST
+    protected void SetKeyBoardDirection()
+    {
+        if (Input.GetAxis("Forward_" + m_ID.ToString()) != 0f)
+        {           
+            Vector3 fwrd = Vector3.Normalize(m_CamTransform.forward);
+            fwrd.y = 0f;
+
+            float value = Input.GetAxis("Forward_" + m_ID.ToString()) > 0f ? 0.05f : -0.05f;
+            m_MoveDirection += fwrd * m_Speed * value;
+        }
+
+        if (Input.GetAxis("Horizontal_" + m_ID.ToString()) != 0f)
+        {
+            Vector3 right = m_CamTransform.right;
+            right.y = 0f;
+            right = Vector3.Normalize(right);
+
+            float value = Input.GetAxis("Horizontal_" + m_ID.ToString()) > 0f ? 0.05f : -0.05f;
+            m_MoveDirection += right * m_Speed * value;
+        }
+    }
+#endif
+
 
     //Move the player forward or backward
     public void Move()
@@ -245,4 +245,33 @@ public class Character : MonoBehaviour
             m_Animator.SetBool("Dance", false);
         }
     }
+
+#if CHEATS_ACTIVATED
+    private void Cheats()
+    {
+        //Spawn a Coin
+        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Jar
+        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Sax
+        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Boot
+        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+    }
+#endif
 }

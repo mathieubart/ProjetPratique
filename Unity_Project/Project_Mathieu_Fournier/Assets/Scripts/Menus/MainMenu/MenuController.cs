@@ -36,7 +36,7 @@ public class MenuController : MonoBehaviour
 
     private Coroutine m_DistributionRoutine;
 
-	private List<int> m_LevelScores = new List<int>();
+    private List<int> m_LevelScores = new List<int>();
 
 
 	private void Awake()
@@ -73,6 +73,7 @@ public class MenuController : MonoBehaviour
             if (m_PressStartText.enabled)
             {
                 LevelManager.Instance.ChangeScene(EScenes.Levels);
+                m_PressStartText.enabled = false;
             }
             else if(m_PressRematchText.enabled)
             {

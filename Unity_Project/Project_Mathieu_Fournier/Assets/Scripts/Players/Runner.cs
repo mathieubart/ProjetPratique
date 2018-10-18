@@ -71,6 +71,12 @@ public class Runner : Character
 
     protected override void Update()
     {
+        m_MoveDirection = Vector3.zero;
+
+#if KEYBOARD_TEST
+        SetKeyBoardDirection();
+#endif
+
         SetMoveDirection();
 
         if (m_Parent != null)
@@ -87,21 +93,10 @@ public class Runner : Character
 
         if(Input.GetButtonDown("Action_" + m_ID.ToString()) && m_Jar != null)
         {
-            if(!m_IsInAJar)
-            {
-                m_Jar.GetComponent<Jar>().m_PlayerHidden = this;
-                OnHold(m_Jar);
-                m_IsInAJar = true;
-            }
-            else 
-            {
-                m_Jar.GetComponent<Jar>().m_PlayerHidden = null;
-                OnRelease();
-                m_IsInAJar = false;
-            }
+            EnterExitJar();
         }
 
-        if(Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != PowerupType.Empty)
+        if (Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != PowerupType.Empty)
         {
             ActivatePowerUp(0);
         }
@@ -112,62 +107,9 @@ public class Runner : Character
         }
 
 #if CHEATS_ACTIVATED
-        //Coin deposit in team 01 truck 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
-
-            for(int i = 0; i < trucks.Length; i++)
-            {
-                if(trucks[i].GetTeamAssigned() == 0)
-                {
-                    trucks[i].GrowDiamondPileSizeBy(m_Points);
-                    TeamManager.Instance.ModifyLevelScore(0, m_Points);
-                    ResetBag();
-                }
-            }
-        }
-
-        //Coin deposit in team 02 truck 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
-
-            for (int i = 0; i < trucks.Length; i++)
-            {
-                if (trucks[i].GetTeamAssigned() == 1)
-                {
-                    trucks[i].GrowDiamondPileSizeBy(m_Points);
-                    TeamManager.Instance.ModifyLevelScore(1, m_Points);
-                    ResetBag();
-                }
-            }
-        }
-
-        //Spawn a Coin
-        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Jar
-        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Sax
-        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
-
-        //Spawn a Boot
-        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
-        }
+        Cheats();
 #endif
+
     }
 
     protected override void FixedUpdate()
@@ -317,6 +259,22 @@ public class Runner : Character
         m_TokenTrigger.layer = LayerMask.NameToLayer("Token");
     }
 
+    private void EnterExitJar()
+    {
+        if (!m_IsInAJar)
+        {
+            m_Jar.GetComponent<Jar>().m_PlayerHidden = this;
+            OnHold(m_Jar);
+            m_IsInAJar = true;
+        }
+        else
+        {
+            m_Jar.GetComponent<Jar>().m_PlayerHidden = null;
+            OnRelease();
+            m_IsInAJar = false;
+        }
+    }
+
     //Add a powerup to the player if a slot (UI Slot see **PlayerFleeUI**) is empty.
     public void AddPowerUp(int a_Slot, PowerupType a_Type)
     {
@@ -377,4 +335,67 @@ public class Runner : Character
             yield return wait;
         }
     }
+
+
+#if CHEATS_ACTIVATED
+    private void Cheats()
+    {
+        //Coin deposit in team 01 truck 
+        if (Input.GetKeyDown(KeyCode.Alpha2) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
+
+            for (int i = 0; i < trucks.Length; i++)
+            {
+                if (trucks[i].GetTeamAssigned() == 0)
+                {
+                    trucks[i].GrowDiamondPileSizeBy(m_Points);
+                    TeamManager.Instance.ModifyLevelScore(0, m_Points);
+                    ResetBag();
+                }
+            }
+        }
+
+        //Coin deposit in team 02 truck 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
+
+            for (int i = 0; i < trucks.Length; i++)
+            {
+                if (trucks[i].GetTeamAssigned() == 1)
+                {
+                    trucks[i].GrowDiamondPileSizeBy(m_Points);
+                    TeamManager.Instance.ModifyLevelScore(1, m_Points);
+                    ResetBag();
+                }
+            }
+        }
+
+        //Spawn a Coin
+        if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jewel"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Jar
+        if (Input.GetKeyDown(KeyCode.Alpha5) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Jar"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Sax
+        if (Input.GetKeyDown(KeyCode.Alpha6) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Saxophone"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+
+        //Spawn a Boot
+        if (Input.GetKeyDown(KeyCode.Alpha7) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
+        {
+            Instantiate(Resources.Load("Boots"), transform.position + 2.0f * transform.forward, Quaternion.identity);
+        }
+    }
+#endif
+
 }
