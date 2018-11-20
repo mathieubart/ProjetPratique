@@ -8,12 +8,11 @@ using System.Resources;
 public class PowerupInfo
 {
     public int slot;
-    public PowerupType powerupType;
+    public EPowerupType powerupType;
 }
 
 public class Runner : Character
 {
-    private int m_Points = 0;
     [SerializeField]
     private GameObject m_Visual;
     [SerializeField]
@@ -21,12 +20,12 @@ public class Runner : Character
     [SerializeField]
     private GameObject m_MoneyBag;
     private Vector3 m_BaseBagScale;
-    private PowerupType[] m_PowerUps = new PowerupType[2];
+    private BasePowerup[] m_PowerUps = new BasePowerup[2];
 
     [HideInInspector]
-    public bool m_HisHeld {get; set;}
+    public bool m_HisHeld { get; set; }
     [HideInInspector]
-    public bool m_IsInAJar {get; set;}
+    public bool m_IsInAJar { get; set; }
 
     private Vector3 m_Offset = new Vector3(0f, 0f, 0f);
     [HideInInspector]
@@ -37,8 +36,7 @@ public class Runner : Character
         return m_Parent;
     }
 
-    public Action<int> OnPointChanged;
-    public Action<int, PowerupType> OnPowerupAdded;
+    public Action<int, BasePowerup> OnPowerupAdded;
     public Action<int> OnPowerupRemoved;
 
     public GameObject m_MusicFeedback;
@@ -64,9 +62,6 @@ public class Runner : Character
         m_Parent = null;
         m_BaseBagScale = m_MoneyBag.transform.localScale;
         m_BootsFeedback.SetActive(false);
-
-        m_PowerUps[0] = PowerupType.Empty;
-        m_PowerUps[1] = PowerupType.Empty;
     }
 
     protected override void Update()
@@ -86,22 +81,22 @@ public class Runner : Character
         }
         else
         {
-            SetDirection(); 
+            SetDirection();
             Rotate();
         }
 
 
-        if(Input.GetButtonDown("Action_" + m_ID.ToString()) && m_Jar != null)
+        if (Input.GetButtonDown("Action_" + m_ID.ToString()) && m_Jar != null)
         {
             EnterExitJar();
         }
 
-        if (Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != PowerupType.Empty)
+        if (Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != null)
         {
             ActivatePowerUp(0);
         }
 
-        if(Input.GetButtonDown("Powerup02_" + m_ID.ToString()) && m_PowerUps[1] != PowerupType.Empty)
+        if (Input.GetButtonDown("Powerup02_" + m_ID.ToString()) && m_PowerUps[1] != null)
         {
             ActivatePowerUp(1);
         }
@@ -125,60 +120,53 @@ public class Runner : Character
     //Grab Tokens/Powerups or take a Jar reference if at range
     private void OnTriggerEnter(Collider aCol)
     {
-        if(aCol.tag == "Token")
-        {
-            GrowBag();
 
-            aCol.gameObject.SetActive(false);
-            m_Points++;
-            OnPointChanged(m_Points);
-        }
-        else if(aCol.tag == "Jar")
+        if (aCol.tag == "Jar")
         {
             m_Jar = aCol.GetComponent<Transform>();
         }
-        else if(aCol.tag == "Chest")
+        else if (aCol.tag == "Chest")
         {
-            if(aCol.GetComponent<Chest>() != null)
-            for (int i = 0; i < m_PowerUps.Length; i++)
-            {
-                if(m_PowerUps[i] == PowerupType.Empty)
+            if (aCol.GetComponent<Chest>() != null)
+                for (int i = 0; i < m_PowerUps.Length; i++)
                 {
-                    aCol.GetComponent<Chest>().Loot(this, i);
-                    break;
+                    if (m_PowerUps[i] == null)
+                    {
+                        aCol.GetComponent<Chest>().Loot(this, i);
+                        break;
+                    }
                 }
-            }
         }
-        else if(aCol.tag == "Saxophone")
+        else if (aCol.tag == "Saxophone")
         {
             for (int i = 0; i < m_PowerUps.Length; i++)
             {
-                if(m_PowerUps[i] == PowerupType.Empty)
+                if (m_PowerUps[i] == null)
                 {
-                    AddPowerUp(i, PowerupType.Saxophone);
+                    AddPowerUp(i, EPowerupType.Saxophone);
                     aCol.gameObject.SetActive(false);
                     break;
                 }
             }
         }
-        else if(aCol.tag == "Boot")
+        else if (aCol.tag == "Boot")
         {
             for (int i = 0; i < m_PowerUps.Length; i++)
             {
-                if(m_PowerUps[i] == PowerupType.Empty)
+                if (m_PowerUps[i] == null)
                 {
-                    AddPowerUp(i, PowerupType.Boots);
+                    AddPowerUp(i, EPowerupType.Boot);
                     aCol.gameObject.SetActive(false);
                     break;
                 }
-            }        
+            }
         }
     }
 
     //Remove the jar reference if he is no longer at range
     private void OnTriggerExit(Collider aCol)
     {
-        if(gameObject.layer == LayerMask.NameToLayer("PlayerFlee") && aCol.tag == "Jar")
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerFlee") && aCol.tag == "Jar")
         {
             m_Jar = null;
         }
@@ -187,7 +175,7 @@ public class Runner : Character
     //Get Input And Set Direction
     protected override void SetDirection()
     {
-        if(!m_HisHeld && IsGrounded() && !m_IsInAJar && m_MoveDirection != Vector3.zero)
+        if (!m_HisHeld && IsGrounded() && !m_IsInAJar && m_MoveDirection != Vector3.zero)
         {
             m_Direction = m_MoveDirection;
         }
@@ -195,25 +183,22 @@ public class Runner : Character
 
     //Grow The Bag Size or reset the Size if the bool is true.
     public void GrowBag()
-    {     
+    {
         AudioManager.Instance.PlaySFX(0, "Coin01", transform.position);
 
         if (m_MoneyBag.transform.localScale.y <= 1f)
         {
-            m_MoneyBag.transform.localScale += new Vector3(0f, 0.1f, 0f); 
+            m_MoneyBag.transform.localScale += new Vector3(0f, 0.1f, 0f);
         }
-        else if(m_MoneyBag.transform.localScale.z <= 1.5f)
+        else if (m_MoneyBag.transform.localScale.z <= 1.5f)
         {
-            m_MoneyBag.transform.localScale += new Vector3(0.1f, 0f, 0.1f); 
-        }     
+            m_MoneyBag.transform.localScale += new Vector3(0.1f, 0f, 0.1f);
+        }
     }
 
     public void ResetBag()
     {
-        StartCoroutine(PlayCoinDepositSFX(m_Points, 0.15f));
         m_MoneyBag.transform.localScale = m_BaseBagScale;
-        m_Points = 0;
-        OnPointChanged(m_Points);
     }
 
     //Set the player parameters when it hide in a jar or when he is grabbed
@@ -226,15 +211,15 @@ public class Runner : Character
         gameObject.layer = LayerMask.NameToLayer("HeldPlayer");
         m_TokenTrigger.layer = LayerMask.NameToLayer("HeldPlayer");
 
-        if(a_Parent.name == "Grabber")
+        if (a_Parent.name == "Grabber")
         {
             m_Offset = new Vector3(0f, 1.75f, 0f);
         }
-        else if(a_Parent.tag == "Jar")
+        else if (a_Parent.tag == "Jar")
         {
             m_Offset = new Vector3(0f, 0f, 0f);
-            m_Visual.SetActive(false);  
-            a_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = true;    
+            m_Visual.SetActive(false);
+            a_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = true;
             AudioManager.Instance.PlaySFX(0, "Jar", transform.position);
         }
     }
@@ -242,7 +227,7 @@ public class Runner : Character
     //Reset the player parameters when it is released by a player or exit the jar
     public void OnRelease()
     {
-        if(m_Parent.tag == "Jar")
+        if (m_Parent.tag == "Jar")
         {
             transform.position = m_Parent.position + new Vector3(0f, 1f, 0f);
             m_Parent.GetComponent<Jar>().m_IsHiddingThePlayer = false;
@@ -276,23 +261,18 @@ public class Runner : Character
     }
 
     //Add a powerup to the player if a slot (UI Slot see **PlayerFleeUI**) is empty.
-    public void AddPowerUp(int a_Slot, PowerupType a_Type)
+    public void AddPowerUp(int a_Slot, EPowerupType a_Type)
     {
-        switch (a_Type)
+        if(a_Type == EPowerupType.Saxophone)
         {
-            case PowerupType.Saxophone:
-            {
-                m_PowerUps[a_Slot] = PowerupType.Saxophone;
-                OnPowerupAdded(a_Slot, PowerupType.Saxophone);
-                break;
-            }              
-            case PowerupType.Boots:
-            {
-                m_PowerUps[a_Slot] = PowerupType.Boots;
-                OnPowerupAdded(a_Slot, PowerupType.Boots);
-                break;
-            } 
+            m_PowerUps[a_Slot] = gameObject.AddComponent<Saxophone>();   
         }
+        else if(a_Type == EPowerupType.Boot)
+        {
+            m_PowerUps[a_Slot] = gameObject.AddComponent<Boot>();
+        }
+
+        OnPowerupAdded(a_Slot, m_PowerUps[a_Slot]);
 
         AudioManager.Instance.PlaySFX(0, "Token_Grab", transform.position);
     }
@@ -300,78 +280,23 @@ public class Runner : Character
     //Activate a powerup if there is a powerup in the input corresponding Slot.
     private void ActivatePowerUp(int a_Slot)
     {
-        switch (m_PowerUps[a_Slot])
+        if (m_PowerUps[a_Slot] != null)
         {
-            case PowerupType.Saxophone:
-                {
-                    gameObject.AddComponent<SaxophoneEffect>().PlayEffect();
-                    break;
-                }
-            case PowerupType.Boots:
-                {
-                    gameObject.AddComponent<BootEffect>().PlayEffect();
-                    break;
-                }
-        }
+            if (m_PowerUps[a_Slot] is Saxophone)
+            {
+                Instantiate(Resources.Load("SaxFeedback"), transform.position + 0.5f * transform.forward, Quaternion.Euler(transform.eulerAngles + -90f * Vector3.up), transform);
+            }
 
-        m_PowerUps[a_Slot] = PowerupType.Empty;
-        OnPowerupRemoved(a_Slot);
-    }
+            m_PowerUps[a_Slot].Use();
 
-    public int GetPoints()
-    {
-        return m_Points;
-    }
-
-    private IEnumerator PlayCoinDepositSFX(int a_CoinAmount, float a_WaitTime)
-    {
-        WaitForSeconds wait = new WaitForSeconds(a_WaitTime);
-        Vector3 depositPos = transform.position;
-
-        for(int i = 0; i < a_CoinAmount; i++)
-        {
-            AudioManager.Instance.PlaySFX(0, "Coin_Deposit", depositPos);
-
-            yield return wait;
+            m_PowerUps[a_Slot] = null;
+            OnPowerupRemoved(a_Slot);
         }
     }
-
 
 #if CHEATS_ACTIVATED
     private void Cheats()
     {
-        //Coin deposit in team 01 truck 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
-
-            for (int i = 0; i < trucks.Length; i++)
-            {
-                if (trucks[i].GetTeamAssigned() == 0)
-                {
-                    trucks[i].GrowDiamondPileSizeBy(m_Points);
-                    TeamManager.Instance.ModifyLevelScore(0, m_Points);
-                    ResetBag();
-                }
-            }
-        }
-
-        //Coin deposit in team 02 truck 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
-        {
-            Truck[] trucks = GameObject.FindObjectsOfType<Truck>();
-
-            for (int i = 0; i < trucks.Length; i++)
-            {
-                if (trucks[i].GetTeamAssigned() == 1)
-                {
-                    trucks[i].GrowDiamondPileSizeBy(m_Points);
-                    TeamManager.Instance.ModifyLevelScore(1, m_Points);
-                    ResetBag();
-                }
-            }
-        }
-
         //Spawn a Coin
         if (Input.GetKeyDown(KeyCode.Alpha4) && CheatManager.Instance && CheatManager.Instance.m_AreCheatsActive)
         {

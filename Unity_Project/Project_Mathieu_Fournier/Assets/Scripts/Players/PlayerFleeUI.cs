@@ -27,6 +27,7 @@ public class PlayerFleeUI : MonoBehaviour
 		m_UIBoot01.SetActive(false);
 		m_UIBoot02.SetActive(false);
 
+
 		SetText(0);
 	}
 
@@ -38,7 +39,10 @@ public class PlayerFleeUI : MonoBehaviour
             {
                 Runner player;
                 player = TeamManager.Instance.Runner((int)m_ID);
-                player.OnPointChanged += SetText;
+                if(player.GetComponentInChildren<CoinCase>())
+                {
+                    player.GetComponentInChildren<CoinCase>().OnPointChanged += SetText;
+                }
 				player.OnPowerupAdded += AddPowerup;
 				player.OnPowerupRemoved += RemovePowerUp;
             }
@@ -50,45 +54,35 @@ public class PlayerFleeUI : MonoBehaviour
 		m_PointTextMesh.text = a_Number.ToString();
 	}
 
-	private void AddPowerup(int a_Slot, PowerupType a_Powerup)
+	private void AddPowerup(int a_Slot, BasePowerup a_Powerup)
 	{
 		ShowPowerUp(a_Slot, a_Powerup);			
 	}
 
-	public void ShowPowerUp(int a_Slot, PowerupType a_Type)
+	public void ShowPowerUp(int a_Slot, BasePowerup a_Type)
 	{
 		if(a_Slot == 0)
 		{
-			switch (a_Type)
-			{
-				case PowerupType.Saxophone:
-				{
-					m_UISax01.SetActive(true);
-					break;
-				}
-				case PowerupType.Boots:
-				{
-					m_UIBoot01.SetActive(true);
-					break;
-				}
-			}
+            if(a_Type is Saxophone)
+            {
+                m_UISax01.SetActive(true);
+            }
+            else if(a_Type is Boot)
+            {
+                m_UIBoot01.SetActive(true);
+            }
 		}
 		else if(a_Slot == 1)
 		{
-			switch (a_Type)
-			{
-				case PowerupType.Saxophone:
-				{
-					m_UISax02.SetActive(true);
-					break;
-				}
-				case PowerupType.Boots:
-				{
-					m_UIBoot02.SetActive(true);
-					break;
-				}
-			}
-		}
+            if (a_Type is Saxophone)
+            {
+                m_UISax02.SetActive(true);
+            }
+            else if (a_Type is Boot)
+            {
+                m_UIBoot02.SetActive(true);
+            }
+        }
 	}
 
 	public void RemovePowerUp(int a_Slot)

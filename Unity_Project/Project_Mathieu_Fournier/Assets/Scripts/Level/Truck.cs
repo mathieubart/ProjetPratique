@@ -41,20 +41,15 @@ public class Truck : MonoBehaviour
         ResetDiamondPile();
     }
 
-    private void OnTriggerEnter(Collider aCol)
-	{	
-		if(aCol.name == "Runner" )
-		{
-			int points = aCol.GetComponent<Runner>().GetPoints();
-			TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, points);
-			aCol.GetComponent<Runner>().ResetBag();
-            GrowDiamondPileSizeBy(points);
-		}
-		else if(aCol.transform.tag == "Jar" && aCol.GetComponent<Jar>().m_IsHiddingThePlayer)
-		{
-			int points = aCol.GetComponent<Jar>().m_PlayerHidden.GetPoints();
-			TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, points);	
-            GrowDiamondPileSizeBy(points);
+    public void CoinDeposit(CoinCase a_CoinCase)
+    {
+        int coins = a_CoinCase.Coins;
+
+        if (coins > 0)
+        {
+            a_CoinCase.CoinDeposit();
+            TeamManager.Instance.ModifyLevelScore(m_TeamAssigned, coins);
+            GrowDiamondPileSizeBy(coins);
         }
     }
 

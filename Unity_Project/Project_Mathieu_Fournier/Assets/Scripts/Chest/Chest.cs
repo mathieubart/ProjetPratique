@@ -6,8 +6,10 @@ public class Chest : MonoBehaviour
 {
 	public void Loot(Runner a_Player, int a_Slot)
 	{
-		int randomPowerUp = Random.Range(1, 3);
-		a_Player.AddPowerUp(a_Slot, (PowerupType)randomPowerUp);	
+        int rand = Random.Range(0, 2);
+
+        a_Player.AddPowerUp(a_Slot, (EPowerupType)rand);
+
 		Destroy(this);
 	}
 }

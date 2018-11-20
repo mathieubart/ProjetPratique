@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class BaseEffect : MonoBehaviour
 {
-	protected PowerupType m_Type;
     public float m_EffectDuration = 3f;
     private float m_LifeSpan = 0f;
 
-    protected GameObject m_EffectFeedback;
-
-    private void Start()
+    protected virtual void Start()
     {
         PlayEffect();
     }
@@ -34,5 +31,10 @@ public class BaseEffect : MonoBehaviour
     protected virtual void StopEffect()
     {
 
+    }
+
+    public void AddTime(float a_TimeToAdd)
+    {
+        m_EffectDuration += a_TimeToAdd;
     }
 }

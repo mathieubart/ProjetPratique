@@ -26,6 +26,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1113187168147926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4634914277716288}
+  - component: {fileID: 65015741371933910}
+  - component: {fileID: 114170046666266014}
+  m_Layer: 20
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1262852601420934
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +82,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4571973419350524}
-  - component: {fileID: 65622096338213898}
   - component: {fileID: 114065163121040536}
   - component: {fileID: 64259967156329384}
   - component: {fileID: 33051600049296130}
@@ -134,9 +150,23 @@ Transform:
   - {fileID: 4496340852296040}
   - {fileID: 4729624370539636}
   - {fileID: 4097573170738904}
+  - {fileID: 4634914277716288}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!4 &4634914277716288
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1113187168147926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4571973419350524}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4729624370539636
 Transform:
   m_ObjectHideFlags: 1
@@ -261,12 +291,12 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: fef94615d9ddc5e498cb576ca4b18ed4, type: 3}
---- !u!65 &65622096338213898
+--- !u!65 &65015741371933910
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1836014352577054}
+  m_GameObject: {fileID: 1113187168147926}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
@@ -283,7 +313,7 @@ Light:
   serializedVersion: 8
   m_Type: 3
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -325,3 +355,14 @@ MonoBehaviour:
   m_Spawn02: {fileID: 4496340852296040}
   m_DiamondPile: {fileID: 4097573170738904}
   m_DiamondPileGrowAmount: {x: 0, y: 0.05, z: 0}
+--- !u!114 &114170046666266014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1113187168147926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b45917a09f0c7c4d894fb087472f713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

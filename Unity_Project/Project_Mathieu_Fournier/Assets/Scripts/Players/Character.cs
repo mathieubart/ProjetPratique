@@ -11,9 +11,10 @@ public class Character : MonoBehaviour
     [SerializeField]
     private CharacterData m_CharacterData;
     protected PlayerID m_ID;
-    public void SetID(PlayerID a_ID)
+    public PlayerID ID
     {
-        m_ID = a_ID;
+        get { return m_ID; }
+        set { m_ID = value; }
     }
 
     [SerializeField]
@@ -23,6 +24,7 @@ public class Character : MonoBehaviour
     public float Speed
     {
         get{ return m_Speed;}
+        set{ m_Speed = value; }
     }
     protected float m_RotationSpeed;
     protected float m_BaseRotationSpeed;
@@ -145,7 +147,6 @@ public class Character : MonoBehaviour
     }
 #endif
 
-
     //Move the player forward or backward
     public void Move()
     {
@@ -193,38 +194,32 @@ public class Character : MonoBehaviour
         }
     }
 
+
+    //Set the speed value to his base speed value.
+    public void ResetSpeed()
+    {
+        m_Speed = m_CharacterData.Speed;
+    }
+
     //Return true if the player touch the ground
     protected bool IsGrounded()
     {
-        bool isGrounded = false;
-        if(!isGrounded)
-        {
-            isGrounded = Physics.Raycast(m_GroundRaycaster.position + new Vector3(0f, 0.2f, 0f), -transform.up, 0.53f, ~LayerMask.GetMask("PlayerGrab"));
-        }
-        return isGrounded;
+        return Physics.Raycast(m_GroundRaycaster.position + new Vector3(0f, 0.2f, 0f), -transform.up, 0.53f, ~LayerMask.GetMask("PlayerGrab"));
     }
 
     //Return true if something is in front of the player
     protected bool RaycastPlayerForward()
     {
-        bool raycastPlayerForward = false;
-
         for (int i = 0; i < m_FrontRaycasters.Count; i++)
         {
             Ray frontRay = new Ray(m_FrontRaycasters[i].position, gameObject.transform.forward);
-            if(Physics.Raycast(frontRay, 0.75f, LayerMask.NameToLayer("Default")))
+            if (Physics.Raycast(frontRay, 0.75f, LayerMask.NameToLayer("Default")))
             {
-                raycastPlayerForward = true;
-                continue;
+                return true;
             }
         }
-        return raycastPlayerForward;
+        return false;
     }	
-
-	public void SetSpeed(float a_NewSpeed)
-    {
-        m_Speed = a_NewSpeed;
-    }
 
     public virtual void StartDance()
     {

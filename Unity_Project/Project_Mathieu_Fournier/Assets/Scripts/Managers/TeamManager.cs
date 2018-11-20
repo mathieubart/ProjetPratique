@@ -112,24 +112,24 @@ public class TeamManager : MonoBehaviour
 			if(m_Teams[i].IsRunner)
 			{
 				m_Teams[i].Runner = Instantiate(m_Teams[i].Player01.Runner, spawnPos, Quaternion.identity);
-				m_Teams[i].Runner.GetComponentInChildren<Character>().SetID((PlayerID)m_Teams[i].Player01.ID);
+				m_Teams[i].Runner.GetComponentInChildren<Character>().ID = (PlayerID)m_Teams[i].Player01.ID;
 
 				spawnPos = GetSpawnPos(spawnIndex);
 				spawnIndex++;
 
 				m_Teams[i].Grabber = Instantiate(m_Teams[i].Player02.Grabber, spawnPos, Quaternion.identity);
-				m_Teams[i].Grabber.GetComponentInChildren<Character>().SetID((PlayerID)m_Teams[i].Player02.ID);		
+				m_Teams[i].Grabber.GetComponentInChildren<Character>().ID = (PlayerID)m_Teams[i].Player02.ID;		
 			}
 			else
 			{
 				m_Teams[i].Grabber = Instantiate(m_Teams[i].Player01.Grabber, spawnPos, Quaternion.identity);
-				m_Teams[i].Grabber.GetComponentInChildren<Character>().SetID((PlayerID)m_Teams[i].Player01.ID);
+				m_Teams[i].Grabber.GetComponentInChildren<Character>().ID = (PlayerID)m_Teams[i].Player01.ID;
 							
 				spawnPos = GetSpawnPos(spawnIndex);
 				spawnIndex++;
 
 				m_Teams[i].Runner = Instantiate(m_Teams[i].Player02.Runner, spawnPos, Quaternion.identity);
-				m_Teams[i].Runner.GetComponentInChildren<Character>().SetID((PlayerID)m_Teams[i].Player02.ID);			
+				m_Teams[i].Runner.GetComponentInChildren<Character>().ID = (PlayerID)m_Teams[i].Player02.ID;			
 			}		
 		}
 	}

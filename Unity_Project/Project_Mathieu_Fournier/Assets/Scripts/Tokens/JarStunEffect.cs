@@ -26,7 +26,7 @@ public class JarStunEffect : MonoBehaviour
 		if(m_PlayerGrab != null)
 		{
 			m_BaseSpeed = m_PlayerGrab.Speed;
-			m_PlayerGrab.SetSpeed(0f); 
+			m_PlayerGrab.Speed = 0f; 
 			StartCoroutine("EffectTimer");
 		}
 		else
@@ -38,7 +38,7 @@ public class JarStunEffect : MonoBehaviour
 	private IEnumerator EffectTimer()
 	{
 		yield return new WaitForSeconds(m_EffectDuration);
-		m_PlayerGrab.SetSpeed(m_BaseSpeed);
+		m_PlayerGrab.Speed = m_BaseSpeed;
         m_PlayerGrab.OnStunnedEnd();
 		yield return new WaitForSeconds(0.1f);
 		Destroy(this);	

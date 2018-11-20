@@ -156,7 +156,7 @@ InputManager:
     negativeButton: 
     positiveButton: g
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: joystick button 0
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -172,7 +172,7 @@ InputManager:
     negativeButton: 
     positiveButton: h
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: joystick button 0
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -188,7 +188,7 @@ InputManager:
     negativeButton: 
     positiveButton: j
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: joystick button 0
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -547,7 +547,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 2
+    axis: 3
     joyNum: 2
   - serializedVersion: 3
     m_Name: RightAnalogX_PlayerThree
@@ -563,7 +563,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 2
+    axis: 3
     joyNum: 3
   - serializedVersion: 3
     m_Name: RightAnalogX_PlayerFour
@@ -579,7 +579,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 2
+    axis: 3
     joyNum: 4
   - serializedVersion: 3
     m_Name: RightAnalogY_PlayerOne
@@ -611,7 +611,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 5
+    axis: 4
     joyNum: 2
   - serializedVersion: 3
     m_Name: RightAnalogY_PlayerThree
@@ -627,7 +627,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 5
+    axis: 4
     joyNum: 3
   - serializedVersion: 3
     m_Name: RightAnalogY_PlayerFour
@@ -643,5 +643,5 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 5
+    axis: 4
     joyNum: 4
