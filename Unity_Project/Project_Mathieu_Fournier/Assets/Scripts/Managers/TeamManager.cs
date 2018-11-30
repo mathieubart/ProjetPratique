@@ -22,20 +22,14 @@ public class TeamManager : MonoBehaviour
 
 	public Runner Runner(int a_ID)
 	{
-		switch (a_ID)
-		{
-			case 1:
-			case 3:
-			{
-				return m_Teams[0].Runner.GetComponentInChildren<Runner>();
-			}
-			case 2:
-			case 4:
-			{
-				return m_Teams[1].Runner.GetComponentInChildren<Runner>();
-			}
-		}
-		return null;
+        if(a_ID % 2 == 0)
+        {
+		    return m_Teams[1].Runner.GetComponentInChildren<Runner>();
+        }
+        else
+        {
+			return m_Teams[0].Runner.GetComponentInChildren<Runner>();
+        }
 	}
 
 /* 
@@ -68,13 +62,7 @@ public class TeamManager : MonoBehaviour
 
 	private void Start()
 	{
-		m_Teams.Add(new Team());
-		m_Teams[0].Player01 = m_PlayerPrefabs[0];
-		m_Teams[0].Player02 = m_PlayerPrefabs[2];
-
-		m_Teams.Add(new Team());		
-		m_Teams[1].Player01 = m_PlayerPrefabs[1];
-		m_Teams[1].Player02 = m_PlayerPrefabs[3];
+        SetupTeam();
 	}
 
 	//Assign a random character to the teams players.
@@ -216,6 +204,23 @@ public class TeamManager : MonoBehaviour
 	{
 		m_Teams.Add(new Team());
 	}
+
+    public void DeleteTeams()
+    {
+        m_Teams = new List<Team>();
+        SetupTeam();
+    }
+
+    private void SetupTeam()
+    {
+        m_Teams.Add(new Team());
+        m_Teams[0].Player01 = m_PlayerPrefabs[0];
+        m_Teams[0].Player02 = m_PlayerPrefabs[2];
+
+        m_Teams.Add(new Team());
+        m_Teams[1].Player01 = m_PlayerPrefabs[1];
+        m_Teams[1].Player02 = m_PlayerPrefabs[3];
+    }
 
 	public Runner GetRunner(int a_ID)
 	{

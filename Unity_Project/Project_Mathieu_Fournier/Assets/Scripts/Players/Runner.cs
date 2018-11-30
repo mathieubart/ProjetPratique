@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Resources;
+using InControl;
 
 //How can i do this Any other way?
 public class PowerupInfo
@@ -85,18 +86,17 @@ public class Runner : Character
             Rotate();
         }
 
-
-        if (Input.GetButtonDown("Action_" + m_ID.ToString()) && m_Jar != null)
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.Action1).WasPressed && m_Jar != null)
         {
             EnterExitJar();
         }
 
-        if (Input.GetButtonDown("Powerup01_" + m_ID.ToString()) && m_PowerUps[0] != null)
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.LeftBumper).WasPressed && m_PowerUps[0] != null)
         {
             ActivatePowerUp(0);
         }
 
-        if (Input.GetButtonDown("Powerup02_" + m_ID.ToString()) && m_PowerUps[1] != null)
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.RightBumper).WasPressed && m_PowerUps[1] != null)
         {
             ActivatePowerUp(1);
         }
@@ -128,6 +128,7 @@ public class Runner : Character
         else if (aCol.tag == "Chest")
         {
             if (aCol.GetComponent<Chest>() != null)
+            {
                 for (int i = 0; i < m_PowerUps.Length; i++)
                 {
                     if (m_PowerUps[i] == null)
@@ -136,6 +137,7 @@ public class Runner : Character
                         break;
                     }
                 }
+            }
         }
         else if (aCol.tag == "Saxophone")
         {

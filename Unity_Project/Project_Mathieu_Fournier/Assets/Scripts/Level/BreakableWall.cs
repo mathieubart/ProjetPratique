@@ -31,6 +31,7 @@ public class BreakableWall : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
@@ -38,6 +39,7 @@ public class BreakableWall : MonoBehaviour
             BreakWall();
         }
     }
+
 
     public void BreakWall()
     {

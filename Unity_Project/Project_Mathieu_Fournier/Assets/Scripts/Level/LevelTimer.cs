@@ -12,13 +12,14 @@ public class LevelTimer : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_CheatText;
 
-    private bool m_IsTimePaused = false;
+    private bool m_IsTimePaused;
     private float m_PausedTime;
 #endif
 
     [SerializeField]
 	private float m_LevelTime;
 	private float m_TimeRemaining;
+    private bool m_IsStarted = false;
 
     [SerializeField]
     private float m_AlarmTime;
@@ -51,9 +52,12 @@ public class LevelTimer : MonoBehaviour
 
 	private void Update()
 	{
-		m_TimeRemaining -= Time.deltaTime;
+        if (m_IsStarted)
+        {
+            m_TimeRemaining -= Time.deltaTime;
 
-		m_LevelTimeText.text = "Time Remaining" + ((int)m_TimeRemaining).ToString();
+            m_LevelTimeText.text = "Time Remaining" + ((int)m_TimeRemaining).ToString();
+        }
 
         if(m_TimeRemaining <= m_AlarmTime && !m_AlarmStarted)
         {
@@ -95,6 +99,11 @@ public class LevelTimer : MonoBehaviour
                 yield return null;
             }
         }
+    }
+
+    public void StartTimer()
+    {
+        m_IsStarted = true;
     }
 
 #if CHEATS_ACTIVATED

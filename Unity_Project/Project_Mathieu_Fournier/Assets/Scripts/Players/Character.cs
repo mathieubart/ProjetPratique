@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using System.Resources;
+using InControl;
 
 
 public class Character : MonoBehaviour 
@@ -106,26 +107,27 @@ public class Character : MonoBehaviour
 
     protected void SetMoveDirection()
     {
-        if (Input.GetAxis("LeftAnalogY_" + m_ID.ToString()) != 0f)
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.LeftStickY) != 0f)
         {
             Vector3 fwrd = m_CamTransform.forward;
             fwrd.y = 0f;
             fwrd = Vector3.Normalize(fwrd);
-            m_MoveDirection += fwrd * m_Speed * Input.GetAxis("LeftAnalogY_" + m_ID.ToString());
+            m_MoveDirection += fwrd * m_Speed * ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.LeftStickY);
         }
 
-        if (Input.GetAxis("LeftAnalogX_" + m_ID.ToString()) != 0f)
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.LeftStickX) != 0f)
         {
             Vector3 right = m_CamTransform.right;
             right.y = 0f;
             right = Vector3.Normalize(right);
-            m_MoveDirection += right * m_Speed * Input.GetAxis("LeftAnalogX_" + m_ID.ToString());
+            m_MoveDirection += right * m_Speed * ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.LeftStickX);
         }
     }
 
 #if KEYBOARD_TEST
     protected void SetKeyBoardDirection()
     {
+        /*
         if (Input.GetAxis("Forward_" + m_ID.ToString()) != 0f)
         {           
             Vector3 fwrd = Vector3.Normalize(m_CamTransform.forward);
@@ -144,6 +146,7 @@ public class Character : MonoBehaviour
             float value = Input.GetAxis("Horizontal_" + m_ID.ToString()) > 0f ? 0.05f : -0.05f;
             m_MoveDirection += right * m_Speed * value;
         }
+        */
     }
 #endif
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class Grabber : Character
 {
@@ -41,7 +42,7 @@ public class Grabber : Character
     {      
         base.Update();
 
-        if (Input.GetButtonDown("Action_" + m_ID))
+        if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.RightBumper).WasPressed)
         {
             if(m_HeldObject != null)
             {
@@ -78,7 +79,7 @@ public class Grabber : Character
     {
         m_GrabablePots.Clear();
         RaycastHit[] spherecastHifos;
-        spherecastHifos = Physics.SphereCastAll(transform.position, 1.5f, transform.up, 0.9f * transform.localScale.y, LayerMask.GetMask("Jar"));
+        spherecastHifos = Physics.SphereCastAll(transform.position, 2f, transform.up, 0.9f * transform.localScale.y, LayerMask.GetMask("Jar"));
         
         for (int i = 0; i < spherecastHifos.Length; i++)
         {
@@ -90,7 +91,7 @@ public class Grabber : Character
     {
         GameObject characterFound = null;
         RaycastHit[] spherecastHifo;
-        spherecastHifo = Physics.SphereCastAll(transform.position, 1.5f, transform.up ,0.9f * transform.localScale.y, LayerMask.GetMask("PlayerFlee"));
+        spherecastHifo = Physics.SphereCastAll(transform.position, 2f, transform.up ,0.9f * transform.localScale.y, LayerMask.GetMask("PlayerFlee"));
         if(spherecastHifo.Length != 0)
         {
             characterFound = spherecastHifo[0].collider.gameObject;
@@ -151,7 +152,7 @@ public class Grabber : Character
         {       
             foreach (ContactPoint point in aCollision)
             {
-                if(point.point.y > 1.2f)
+                if(point.point.y > 1.5f)
                 {
                     gameObject.AddComponent<JarStunEffect>();
                     StartStunned();

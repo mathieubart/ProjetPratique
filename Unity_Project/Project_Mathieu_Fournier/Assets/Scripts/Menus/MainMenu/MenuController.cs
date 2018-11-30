@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using InControl;
 
 public class MenuController : MonoBehaviour 
 {
@@ -38,7 +39,6 @@ public class MenuController : MonoBehaviour
 
     private List<int> m_LevelScores = new List<int>();
 
-
 	private void Awake()
 	{
         HideUI();
@@ -68,7 +68,7 @@ public class MenuController : MonoBehaviour
 
 	private void Update()
 	{
-        if (Input.GetButtonDown("Action_PlayerOne"))
+        if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerOne).GetControl(InputControlType.Action1).WasPressed)
         {
             if (m_PressStartText.enabled)
             {
@@ -125,6 +125,9 @@ public class MenuController : MonoBehaviour
         TeamManager.Instance.ResetLevelScores();
 
         ShowText();
+        m_PressStartText.enabled = false;
+
+        LevelManager.Instance.ChangeScene(EScenes.StartMenu);
     }
 
     private void HideUI()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using InControl;
 
 public class StartMenu : MonoBehaviour 
 {
@@ -15,11 +16,16 @@ public class StartMenu : MonoBehaviour
 	private List<Text> m_StartTexts = new List<Text>();
 	[SerializeField]
 	private List<Image> m_StartImage = new List<Image>();
-	
+
+    InputDevice m_LastDeviceUsed;
+    private int m_ActivatedDevices = 0;
 
 	private void Awake()
 	{
-		for (int i = 1; i < m_StartTexts.Count; i++)
+        TeamManager.Instance.DeleteTeams();
+        ControllerManager.Instance.ResetPlayerDevice();
+
+        for (int i = 1; i < m_StartTexts.Count; i++)
 		{
 			m_StartTexts[i].GetComponent<Animator>().enabled = false;
 			m_StartImage[i].enabled = false;
@@ -28,48 +34,74 @@ public class StartMenu : MonoBehaviour
 
 	void Update () 
 	{
-		m_StartImage[0].enabled = m_PlayerOneReady && Input.GetButton("Action_PlayerOne") ? true : false;
-		m_StartImage[1].enabled = m_PlayerTwoReady && Input.GetButton("Action_PlayerTwo") ? true : false;
-		m_StartImage[2].enabled = m_PlayerThreeReady && Input.GetButton("Action_PlayerThree") ? true : false;
-		m_StartImage[3].enabled = m_PlayerFourReady && Input.GetButton("Action_PlayerFour") ? true : false;
+        InputDevice controller = InputManager.ActiveDevice;
 
-		if(!m_PlayerFourReady)
-		{
-			if(Input.GetButtonDown("Action_PlayerOne"))
-			{
-				m_PlayerOneReady = true;
-				m_StartTexts[0].text = "Ready!";
-				m_StartTexts[0].GetComponent<Animator>().enabled = false;
-				m_StartTexts[1].GetComponent<Animator>().enabled = true;	
-			}
-			
-			if(m_PlayerOneReady && Input.GetButtonDown("Action_PlayerTwo"))
-			{			
-				m_PlayerTwoReady = true;
-				m_StartTexts[1].text = "Ready!";	
-				m_StartTexts[1].GetComponent<Animator>().enabled = false;
-				m_StartTexts[2].GetComponent<Animator>().enabled = true;							
-			}
-			
-			if(m_PlayerTwoReady && Input.GetButtonDown("Action_PlayerThree"))
-			{							
-				m_PlayerThreeReady = true;
-				m_StartTexts[2].text = "Ready!";
-				m_StartTexts[2].GetComponent<Animator>().enabled = false;
-				m_StartTexts[3].GetComponent<Animator>().enabled = true;	
-			}
-			
-			if(m_PlayerThreeReady && Input.GetButtonDown("Action_PlayerFour"))
-			{											
-				m_PlayerFourReady = true;
-				m_StartTexts[3].text = "Ready!";
-				m_StartTexts[3].GetComponent<Animator>().enabled = false;
-			}
+        if (controller.GetControl(InputControlType.Action1).WasPressed && !ControllerManager.Instance.ContainDevice(controller))
+        {
+            switch (m_ActivatedDevices)
+            {
+                case 0:
+                    {
+                        ControllerManager.Instance.SetPlayerDevice(PlayerID.PlayerOne, controller);
+                        m_PlayerOneReady = true;
+                        m_StartTexts[0].text = "Ready!";
+                        m_StartTexts[0].GetComponent<Animator>().enabled = false;
+                        m_StartTexts[1].GetComponent<Animator>().enabled = true;
+                        break;
+                    }
+                case 1:
+                    {
+                        ControllerManager.Instance.SetPlayerDevice(PlayerID.PlayerTwo, controller);
+                        m_PlayerTwoReady = true;
+                        m_StartTexts[1].text = "Ready!";
+                        m_StartTexts[1].GetComponent<Animator>().enabled = false;
+                        m_StartTexts[2].GetComponent<Animator>().enabled = true;
+                        break;
+                    }
+                case 2:
+                    {
+                        ControllerManager.Instance.SetPlayerDevice(PlayerID.PlayerThree, controller);
+                        m_PlayerThreeReady = true;
+                        m_StartTexts[2].text = "Ready!";
+                        m_StartTexts[2].GetComponent<Animator>().enabled = false;
+                        m_StartTexts[3].GetComponent<Animator>().enabled = true;
+                        break;
+                    }
+                case 3:
+                    {
+                        ControllerManager.Instance.SetPlayerDevice(PlayerID.PlayerFour, controller);
+                        m_PlayerFourReady = true;
+                        m_StartTexts[3].text = "Ready!";
+                        m_StartTexts[3].GetComponent<Animator>().enabled = false;
+                        break;
+                    }
+            }
 
-			if(m_PlayerFourReady)
-			{
-				LevelManager.Instance.ChangeScene(EScenes.MainMenu);
-			}
-		}
-	}
+            m_ActivatedDevices++;
+        }
+        else
+        {
+            if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerOne) != null)
+            {
+                m_StartImage[0].enabled = ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerOne).GetControl(InputControlType.Action1);
+            }
+            if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerTwo) != null)
+            {
+                m_StartImage[1].enabled = ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerTwo).GetControl(InputControlType.Action1);
+            }
+            if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerThree) != null)
+            {
+                m_StartImage[2].enabled = ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerThree).GetControl(InputControlType.Action1);
+            }
+            if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerFour) != null)
+            {
+                m_StartImage[3].enabled = ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerFour).GetControl(InputControlType.Action1);
+            }
+        }
+
+        if (m_ActivatedDevices >= 4)
+        {
+            LevelManager.Instance.ChangeScene(EScenes.MainMenu);
+        }
+    }
 }
