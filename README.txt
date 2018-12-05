@@ -1,3 +1,8 @@
+To be able to try the Controllers, REMOVE the KEYBOARD_TEST from the player settings.
+ex: Buildsettings
+	player settings
+	    remove KEYBOARD_TEST
+
 Keyboard Inputs:
 
 ____Movements____
