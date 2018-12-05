@@ -17,6 +17,11 @@ public class Saxophone : BasePowerup
 
     private void ApplyEffect()
     {
+        if(AudioManager.Instance)
+        {
+            AudioManager.Instance.PlaySFX(0, "Saxophone_Effect", transform.position);
+        }
+
         Character self = GetComponent<Character>();
         List<Character> characters = GetCloseCharacters();
 

@@ -42,6 +42,9 @@ public class Grabber : Character
     {      
         base.Update();
 
+#if KEYBOARD_TEST
+        KeyBoardAction();
+#else
         if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.RightBumper).WasPressed)
         {
             if(m_HeldObject != null)
@@ -53,9 +56,20 @@ public class Grabber : Character
                 Grab();            
             }      
         }
+#endif
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+    }
 
 #if KEYBOARD_TEST
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void KeyBoardAction()
+    {
+        //Get Keyboard Action Button For The Right Player ID  (1 = F), (2 = G), (3 = H), (4 = J)
+        if (m_ID == PlayerID.PlayerOne && Input.GetKeyDown(KeyCode.F) || m_ID == PlayerID.PlayerThree && Input.GetKeyDown(KeyCode.H)
+        || m_ID == PlayerID.PlayerTwo && Input.GetKeyDown(KeyCode.G) || m_ID == PlayerID.PlayerFour && Input.GetKeyDown(KeyCode.J))
         {
             if (m_HeldObject != null)
             {
@@ -66,13 +80,8 @@ public class Grabber : Character
                 Grab();
             }
         }
+    }
 #endif
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
 
     //Spherecast to find all the pots inside grabable range. return list of pots gameobject
     private void RaycastGrabablePots()

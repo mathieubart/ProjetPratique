@@ -84,10 +84,10 @@ public class Character : MonoBehaviour
 
 #if KEYBOARD_TEST
         SetKeyBoardDirection();
-#endif
-
+#else
         //Set the direction of the player movement
         SetMoveDirection();
+#endif
 
         //Set the direction where the player is facing
         SetDirection();
@@ -127,26 +127,46 @@ public class Character : MonoBehaviour
 #if KEYBOARD_TEST
     protected void SetKeyBoardDirection()
     {
-        /*
-        if (Input.GetAxis("Forward_" + m_ID.ToString()) != 0f)
+        float horizontal = 0f;
+        float vertical = 0f;
+
+        if (((m_ID == PlayerID.PlayerOne || m_ID == PlayerID.PlayerThree) && Input.GetKey(KeyCode.D))
+        || ((m_ID == PlayerID.PlayerTwo || m_ID == PlayerID.PlayerFour) && Input.GetKey(KeyCode.RightArrow)))
+        {
+            horizontal += 0.5f;
+        }
+        if(((m_ID == PlayerID.PlayerOne || m_ID == PlayerID.PlayerThree) && Input.GetKey(KeyCode.A))
+        || ((m_ID == PlayerID.PlayerTwo || m_ID == PlayerID.PlayerFour) && Input.GetKey(KeyCode.LeftArrow)))
+        {
+            horizontal -= 0.5f;
+        }
+
+        if (((m_ID == PlayerID.PlayerOne || m_ID == PlayerID.PlayerThree) && Input.GetKey(KeyCode.W))
+        || ((m_ID == PlayerID.PlayerTwo || m_ID == PlayerID.PlayerFour) && Input.GetKey(KeyCode.UpArrow)))
+        {
+            vertical += 0.5f;
+        }
+        if (((m_ID == PlayerID.PlayerOne || m_ID == PlayerID.PlayerThree) && Input.GetKey(KeyCode.S))
+        || ((m_ID == PlayerID.PlayerTwo || m_ID == PlayerID.PlayerFour) && Input.GetKey(KeyCode.DownArrow)))
+        {
+            vertical -= 0.5f;
+        }
+
+        if (vertical != 0f)
         {           
             Vector3 fwrd = Vector3.Normalize(m_CamTransform.forward);
             fwrd.y = 0f;
-
-            float value = Input.GetAxis("Forward_" + m_ID.ToString()) > 0f ? 0.05f : -0.05f;
-            m_MoveDirection += fwrd * m_Speed * value;
+            m_MoveDirection += fwrd * m_Speed * vertical;
         }
 
-        if (Input.GetAxis("Horizontal_" + m_ID.ToString()) != 0f)
+        if (horizontal != 0f)
         {
             Vector3 right = m_CamTransform.right;
             right.y = 0f;
             right = Vector3.Normalize(right);
-
-            float value = Input.GetAxis("Horizontal_" + m_ID.ToString()) > 0f ? 0.05f : -0.05f;
-            m_MoveDirection += right * m_Speed * value;
+            m_MoveDirection += right * m_Speed * horizontal;
         }
-        */
+        
     }
 #endif
 

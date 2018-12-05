@@ -34,6 +34,51 @@ public class StartMenu : MonoBehaviour
 
 	void Update () 
 	{
+#if KEYBOARD_TEST
+
+        m_StartImage[0].enabled = Input.GetKey(KeyCode.F);
+        m_StartImage[1].enabled = Input.GetKey(KeyCode.G);
+        m_StartImage[2].enabled = Input.GetKey(KeyCode.H);
+        m_StartImage[3].enabled = Input.GetKey(KeyCode.J);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            m_PlayerOneReady = true;
+            m_StartTexts[0].text = "Ready!";
+            m_StartTexts[0].GetComponent<Animator>().enabled = false;
+            m_StartTexts[1].GetComponent<Animator>().enabled = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && m_PlayerOneReady)
+        {
+            m_PlayerTwoReady = true;
+            m_StartTexts[1].text = "Ready!";
+            m_StartTexts[1].GetComponent<Animator>().enabled = false;
+            m_StartTexts[2].GetComponent<Animator>().enabled = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H) && m_PlayerTwoReady)
+        {
+            m_PlayerThreeReady = true;
+            m_StartTexts[2].text = "Ready!";
+            m_StartTexts[2].GetComponent<Animator>().enabled = false;
+            m_StartTexts[3].GetComponent<Animator>().enabled = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.J) && m_PlayerThreeReady)
+        {
+            m_PlayerFourReady = true;
+            m_StartTexts[3].text = "Ready!";
+            m_StartTexts[3].GetComponent<Animator>().enabled = false;
+        }
+
+        if (m_PlayerOneReady && m_PlayerTwoReady && m_PlayerThreeReady && m_PlayerFourReady)
+        {
+            LevelManager.Instance.ChangeScene(EScenes.MainMenu);
+        }
+
+#else
+
         InputDevice controller = InputManager.ActiveDevice;
 
         if (controller.GetControl(InputControlType.Action1).WasPressed && !ControllerManager.Instance.ContainDevice(controller))
@@ -103,5 +148,6 @@ public class StartMenu : MonoBehaviour
         {
             LevelManager.Instance.ChangeScene(EScenes.MainMenu);
         }
+#endif
     }
 }

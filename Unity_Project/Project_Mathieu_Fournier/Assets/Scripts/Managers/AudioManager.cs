@@ -122,7 +122,7 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusicVolume(float a_Volume)
     {
-        m_MusicSource.volume *= a_Volume;
+        m_MusicSource.volume = a_Volume;
     }
 
     public void SetSFXVolume(float a_Volume)

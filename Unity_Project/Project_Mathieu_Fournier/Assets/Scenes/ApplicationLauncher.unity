@@ -336,6 +336,93 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &936764395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 936764399}
+  - component: {fileID: 936764398}
+  - component: {fileID: 936764397}
+  - component: {fileID: 936764396}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &936764396
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936764395}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &936764397
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936764395}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &936764398
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936764395}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &936764399
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936764395}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 43.3737, y: 1.114, z: -35.489}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &975139580
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +631,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f65771b50e0f90e4bb632818b8f5a830, type: 3}
   - {fileID: 8300000, guid: 3803de5373773d0408981f14fc792326, type: 3}
   - {fileID: 8300000, guid: 89b1d90e84db3194aa53264e8b42bcec, type: 3}
+  - {fileID: 8300000, guid: 9ee4a923580e85247bc21d007fff4d03, type: 3}
   m_SFXAudios:
   - {fileID: 114535537807044418, guid: eac8bae03f3e312418c2962b9b87620a, type: 2}
   m_SFXClips:
@@ -551,13 +639,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 264b5b9c9a0e9304d828e2ec5da17a1f, type: 3}
   - {fileID: 8300000, guid: f674255386ae426428a067a8335ad222, type: 3}
   - {fileID: 8300000, guid: 9573a323cc9c1714ea2dc46865a6d674, type: 3}
-  - {fileID: 8300000, guid: fe7b26bb90cf4ac4d8cc2d6d88795b8e, type: 3}
+  - {fileID: 8300000, guid: 61006898e8c07264088615a35123907f, type: 3}
   - {fileID: 8300000, guid: a67dd8608c2f6b44b87247962ff23245, type: 3}
   - {fileID: 8300000, guid: 01b8266052e7f9c4ab03613923f54c68, type: 3}
   - {fileID: 8300000, guid: 0fe763ce0e896704cbcfaedbf2765c1f, type: 3}
   - {fileID: 8300000, guid: 15a31fc90a194124ba92345e07955500, type: 3}
   - {fileID: 8300000, guid: db9559671c1748b4fa2d16b3cf0405a6, type: 3}
   - {fileID: 8300000, guid: dbb353625e62ce64d8ecdd663f52033a, type: 3}
+  - {fileID: 8300000, guid: 863db6427f36c3f4c8094d46cee8c3a9, type: 3}
+  - {fileID: 8300000, guid: e465bcccedcc21845a721ec0ed0668fb, type: 3}
+  - {fileID: 8300000, guid: 237f65000868e1b46abbad9d51bfba56, type: 3}
   m_UniqueClipNames: []
 --- !u!4 &1862998028
 Transform:

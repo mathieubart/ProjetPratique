@@ -71,9 +71,9 @@ public class Runner : Character
 
 #if KEYBOARD_TEST
         SetKeyBoardDirection();
-#endif
-
+#else
         SetMoveDirection();
+#endif
 
         if (m_Parent != null)
         {
@@ -85,6 +85,10 @@ public class Runner : Character
             SetDirection();
             Rotate();
         }
+
+#if KEYBOARD_TEST
+        KeyBoardAction();
+#else
 
         if (ControllerManager.Instance.GetPlayerDevice(m_ID).GetControl(InputControlType.Action1).WasPressed && m_Jar != null)
         {
@@ -100,6 +104,7 @@ public class Runner : Character
         {
             ActivatePowerUp(1);
         }
+#endif
 
 #if CHEATS_ACTIVATED
         Cheats();
@@ -182,6 +187,41 @@ public class Runner : Character
             m_Direction = m_MoveDirection;
         }
     }
+
+#if KEYBOARD_TEST
+    private void KeyBoardAction()
+    {
+        //Get Keyboard Action Button For The Right Player ID  (1 = F), (2 = G), (3 = H), (4 = J)
+        if (m_ID == PlayerID.PlayerOne && Input.GetKeyDown(KeyCode.F) || m_ID == PlayerID.PlayerThree && Input.GetKeyDown(KeyCode.H)
+        || m_ID == PlayerID.PlayerTwo && Input.GetKeyDown(KeyCode.G) || m_ID == PlayerID.PlayerFour && Input.GetKeyDown(KeyCode.J))
+        {
+            if (m_Jar != null)
+            {
+                EnterExitJar();
+            }
+        }
+
+        //Get Keyboard Powerup 1 Button For The Right Player ID  (1 = E), (2 = T), (3 = U), (4 = O)
+        if (m_ID == PlayerID.PlayerOne && Input.GetKeyDown(KeyCode.E) || m_ID == PlayerID.PlayerThree && Input.GetKeyDown(KeyCode.U)
+        || m_ID == PlayerID.PlayerTwo && Input.GetKeyDown(KeyCode.T) || m_ID == PlayerID.PlayerFour && Input.GetKeyDown(KeyCode.O))
+        {
+            if(m_PowerUps[0] != null)
+            {
+                ActivatePowerUp(0);
+            }
+        }
+
+        //Get Keyboard Powerup 2 Button For The Right Player ID  (1 = R), (2 = Y), (3 = I), (4 = P)
+        if (m_ID == PlayerID.PlayerOne && Input.GetKeyDown(KeyCode.R) || m_ID == PlayerID.PlayerThree && Input.GetKeyDown(KeyCode.I)
+        || m_ID == PlayerID.PlayerTwo && Input.GetKeyDown(KeyCode.Y) || m_ID == PlayerID.PlayerFour && Input.GetKeyDown(KeyCode.P))
+        {
+            if (m_PowerUps[1] != null)
+            {
+                ActivatePowerUp(1);
+            }
+        }
+    }
+#endif
 
     //Grow The Bag Size or reset the Size if the bool is true.
     public void GrowBag()

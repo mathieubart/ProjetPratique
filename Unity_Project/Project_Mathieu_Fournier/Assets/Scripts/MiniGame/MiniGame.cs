@@ -31,8 +31,26 @@ public class MiniGame : MonoBehaviour
 
 	private void Update ()
     {
+#if KEYBOARD_TEST
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            AddMashCount(0);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            AddMashCount(1);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            AddMashCount(0);
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            AddMashCount(1);
+        }
+#else
         //Get Team One Action Input
-		if(m_TeamOneMashCount < m_TargetMashCount
+        if (m_TeamOneMashCount < m_TargetMashCount
         && ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerOne).GetControl(InputControlType.Action1).WasPressed)
         {
             AddMashCount(0);
@@ -54,10 +72,26 @@ public class MiniGame : MonoBehaviour
         {
             AddMashCount(1);
         }
+#endif
+
+        if(m_TeamOneSlider == null && m_TeamTwoSlider == null)
+        {
+            if(AudioManager.Instance)
+            {
+                AudioManager.Instance.SetMusicVolume(0.5f);
+            }
+
+            Destroy(gameObject);
+        }
     }
     
     private void AddMashCount(int a_Team)
     {
+        if(AudioManager.Instance)
+        {
+            AudioManager.Instance.PlaySFX(0, "ButtonMash", transform.position);
+        }
+
         if (a_Team == 0)
         {
             m_TeamOneMashCount++;
@@ -94,7 +128,12 @@ public class MiniGame : MonoBehaviour
             m_LevelTimer.StartTimer();
         }
 
-        if(a_Team == 0)
+        if (AudioManager.Instance)
+        {
+            AudioManager.Instance.PlaySFX(0, "Explosion", transform.position);
+        }
+
+        if (a_Team == 0)
         {
             if(m_TeamOneBreakableWall != null)
             {

@@ -39,6 +39,8 @@ public class MenuController : MonoBehaviour
 
     private List<int> m_LevelScores = new List<int>();
 
+    private bool m_UIWinningVisible = false;
+
 	private void Awake()
 	{
         HideUI();
@@ -68,6 +70,22 @@ public class MenuController : MonoBehaviour
 
 	private void Update()
 	{
+#if KEYBOARD_TEST
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            if (m_PressStartText.enabled)
+            {
+                LevelManager.Instance.ChangeScene(EScenes.Levels);
+                m_PressStartText.enabled = false;
+            }
+            else if (m_PressRematchText.enabled)
+            {
+                ResetGame();
+            }
+        }
+#else
+
         if (ControllerManager.Instance.GetPlayerDevice(PlayerID.PlayerOne).GetControl(InputControlType.Action1).WasPressed)
         {
             if (m_PressStartText.enabled)
@@ -80,9 +98,15 @@ public class MenuController : MonoBehaviour
                 ResetGame();
             }
         }
+#endif
 
-		if(TeamManager.Instance.GetGameScore(0) >= m_WinningGameScore)
+		if(!m_UIWinningVisible && TeamManager.Instance.GetGameScore(0) >= m_WinningGameScore)
 		{
+            if(AudioManager.Instance)
+            {
+                AudioManager.Instance.SwitchMusic("Smooth_Criminal", 0.1f);
+            }
+
 			if(m_DistributionRoutine != null)
 			{
 				StopCoroutine(m_DistributionRoutine);
@@ -95,10 +119,17 @@ public class MenuController : MonoBehaviour
 			m_LooseTeam02.SetActive(true);
             m_PressRematchText.enabled = true;
             m_PressStartText.enabled = false;
+
+            m_UIWinningVisible = true;
 		}	
-		else if(TeamManager.Instance.GetGameScore(1) >= m_WinningGameScore)
+		else if(!m_UIWinningVisible && TeamManager.Instance.GetGameScore(1) >= m_WinningGameScore)
 		{
-			if(m_DistributionRoutine != null)
+            if (AudioManager.Instance)
+            {
+                AudioManager.Instance.SwitchMusic("Smooth_Criminal", 0.1f);
+            }
+
+            if (m_DistributionRoutine != null)
 			{
 				StopCoroutine(m_DistributionRoutine);
 				m_DistributionRoutine = null;
@@ -110,8 +141,10 @@ public class MenuController : MonoBehaviour
 			m_LooseTeam01.SetActive(true);
             m_PressRematchText.enabled = true;
             m_PressStartText.enabled = false;
+
+            m_UIWinningVisible = true;
         }
-	}
+    }
 
     private void ResetGame()
     {
@@ -157,6 +190,8 @@ public class MenuController : MonoBehaviour
 		float team01Value = m_LevelScores[0]; 
 		float team02Value = m_LevelScores[1]; 
 		float highestScore = team01Value >= team02Value ? team01Value : team02Value;
+        float SFKTime = m_WinningGameScore / (team01Value + team02Value);
+        float currentSFXTime = 0f;
 
 		//Change The Teams Value To a 0 -> 1 base. 1 = the highestScore.
 		if(team01Value != 0 && team02Value != 0)
@@ -199,6 +234,14 @@ public class MenuController : MonoBehaviour
 
 			m_ScoreSliderTeam01.value = TeamManager.Instance.GetGameScore(0);
 			m_ScoreSliderTeam02.value = TeamManager.Instance.GetGameScore(1);
+
+
+            currentSFXTime += Time.deltaTime;
+            if(currentSFXTime >= SFKTime && AudioManager.Instance)
+            {
+                AudioManager.Instance.PlaySFX(0, "Coin_Deposit", transform.position);
+                currentSFXTime = 0f;
+            }
 
 			yield return null;
 		}

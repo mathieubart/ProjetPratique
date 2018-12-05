@@ -25,9 +25,37 @@ public class FreeLookUserInput : MonoBehaviour
 
     private void Update()
     {
+#if KEYBOARD_TEST
+        KeyBoardInputs();
+#else
         currentX = ControllerManager.Instance.GetPlayerDevice(m_TargetPlayer).GetControl(InputControlType.RightStickX);
         currentY = ControllerManager.Instance.GetPlayerDevice(m_TargetPlayer).GetControl(InputControlType.RightStickY);
+#endif
     }
+
+#if KEYBOARD_TEST
+    private void KeyBoardInputs()
+    {
+        currentX = 0f;
+        currentY = 0f;
+        if (Input.GetKey(KeyCode.Keypad4))
+        {
+            currentX += 0.05f;
+        }
+        if (Input.GetKey(KeyCode.Keypad6))
+        {
+            currentX -= 0.05f;
+        }
+        if (Input.GetKey(KeyCode.Keypad8))
+        {
+            currentY += 0.05f;
+        }
+        if (Input.GetKey(KeyCode.Keypad2))
+        {
+            currentY -= 0.05f;
+        }
+    }
+#endif
 
     private void LateUpdate () 
 	{

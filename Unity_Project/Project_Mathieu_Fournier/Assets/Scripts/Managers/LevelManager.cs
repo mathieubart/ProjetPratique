@@ -86,7 +86,8 @@ public class LevelManager : MonoBehaviour
                 }            
 			case (int)EScenes.MainMenu:
                 {
-					TeamManager.Instance.ResetSpawnPos();          
+					TeamManager.Instance.ResetSpawnPos();
+                    AudioManager.Instance.SetMusicVolume(1f);
                     AudioManager.Instance.SwitchMusic("Blues_BadToTheBone", 0.1f);
                     break;
                 }
