@@ -15,7 +15,7 @@ P2: g
 P3: h
 P4: j
 
-____Powerups____
+____Powerups/Grab/Throw____
 P1: e-r
 P2: t-y
 P3: u-i
